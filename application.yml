@@ -1,0 +1,22 @@
+#server:
+    #port: 46011
+    #ssl:
+        #keyStore: /security/cacerts/keystore.jks
+        #keyStorePassword: changeit
+        #keyPassword: changeit
+
+logging:
+  level.root: ERROR
+  level.com.dell.isg.smi: TRACE
+  file: /var/log/dell/service-server-inventory.log
+
+#eureka:
+  #client:
+    #serviceUrl:
+       #defaultZone: http://service-registry:8600/eureka/
+
+spring:
+  #application:
+    #name: SERVER-INVENTORY
+  jackson:
+    serialization-inclusion : non_null
