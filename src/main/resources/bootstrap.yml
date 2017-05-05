@@ -1,0 +1,32 @@
+server:
+    port: 46011
+---
+
+spring:
+  profiles: default
+  application:
+    name: SERVER-INVENTORY
+  cloud:
+    bus:
+      enabled: false
+    consul:
+      enabled: false
+      config:
+        enabled: false
+---
+
+spring:
+  profiles: consul
+  application:
+    name: SERVER-INVENTORY
+  cloud:
+    consul:
+      enabled: true
+      host: service-registry
+      port: 8500
+      config:
+        prefix: config
+        profileSeparator: '::'
+        format: YAML
+        data-key: data
+        fail-fast: true

@@ -1,0 +1,200 @@
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.sonarqube'
+apply plugin: 'nebula.rpm'
+apply plugin: 'nebula.deb'
+apply plugin: "com.github.hierynomus.license"
+//apply plugin: 'nebula.lint'
+
+// rpm/deb package variables
+def _vendor = 'Dell'
+def _license = 'Apache License 2.0'
+def _group = ''
+def _url = 'http://support.dell.com'
+def _arch = 'x86_64'
+def _os = 'LINUX'
+def _release = 1
+
+
+sourceCompatibility = 1.8
+version = "${version}"
+group = 'com.dell.isg.smi'
+
+buildscript {
+	ext {
+		springVersion = '4.3.6.RELEASE'
+    	springBootVersion = '1.5.1.RELEASE'
+    	springCloudVersion = 'Camden.SR5'
+	}
+   repositories {
+    mavenLocal()
+	maven {
+		url "${artifactory_contextUrl}/libs-release"
+		url "https://plugins.gradle.org/m2/"
+
+	}
+  }
+  dependencies {
+  	classpath "io.spring.gradle:dependency-management-plugin:+"
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	classpath(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '+' )
+	classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:+"
+	classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
+	//classpath 'com.netflix.nebula:gradle-lint-plugin:latest.release'
+  }
+}
+
+//gradleLint {
+//  rules  = ['dependency-parentheses','overridden-dependency-version','duplicate-dependency-class', 'all-dependency','unused-dependency']
+//}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "SMI :: Service :: Server Inventory"
+        property "sonar.projectKey", "org.sonarqube:service-server-inventory"
+    }
+}
+
+springBoot {
+    executable = true
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Dell server inventory jar',
+                   'Implementation-Version': version
+    }
+	baseName = 'service-server-inventory'
+}
+
+repositories {
+	mavenLocal()
+	maven {
+		url "${artifactory_contextUrl}/libs-release"
+	}
+}
+
+dependencies {
+	compile "com.dell.isg.smi:wsmanlib:1.0.29"
+	compile "com.dell.isg.smi:wsmanclient:+"
+  	compile "com.dell.isg.smi:commons-elm:+"
+	compile "com.dell.isg.smi:commons-model:1.0.54"
+	compile "com.dell.isg.smi:adapter-server:1.0.33"
+	compile "org.springframework.boot:spring-boot-starter-web"
+	compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile 'org.springframework.cloud:spring-cloud-starter-consul-all'
+	compile "org.springframework:spring-web"
+	runtime group: 'wiseman', name: 'wiseman', version: '+'
+	compile group: 'org.apache.commons', name: 'commons-collections4', version: '+'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '+'
+	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '+'
+	compile group: "io.springfox", name: "springfox-swagger2", version: "+"
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '+'
+	testCompile group: 'junit', name: 'junit', version: '+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+license {
+        header rootProject.file('license-template')
+        includes(["**/*.java", "**/*.properties"])
+        strictCheck true
+        ignoreFailures true
+        ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    	ext.name = 'DELL Inc.'
+}
+
+task generateRpm(type: Rpm){
+	destinationDir = project.file('build/distributions')
+	destinationDir.mkdirs()
+
+	vendor = _vendor
+	license = _license
+	group = _group
+	summary = 'Dell server-inventory service'
+	description = 'Installs and runs the server-inventory microservice as a linux service'
+	url = _url
+
+	packageName = 'dell-smi-service-server-inventory'
+	release = _release
+	arch = _arch
+	os = _os
+
+	from fileTree( "build/libs" ), {
+        include "*.jar"
+        fileMode = 0755
+		user = "root"
+		addParentDirs = false
+	    into  '/opt/dell/smi/service-server-inventory'
+    }
+
+	from fileTree("./"), {
+        include "application.yml"
+        fileMode = 0755
+		//user = "root"
+		//addParentDirs = true
+	    into  '/opt/dell/smi/service-server-inventory'
+    }
+
+
+	from fileTree( "pkg" ), {
+        include "dell-server-inventory.service"
+		fileMode = 0777
+	    into  '/etc/systemd/system'
+    }
+	link('/etc/systemd/system/multi-user.target.wants/dell-server-inventory.service', '/etc/systemd/system/dell-server-inventory.service')
+}
+
+task generateDeb(type: Deb){
+	destinationDir = project.file('build/distributions')
+	destinationDir.mkdirs()
+
+	vendor = _vendor
+	license = _license
+	group = _group
+	summary = 'Dell server-inventory service'
+	description = 'Installs and runs the server-inventory microservice as a linux service'
+	url = _url
+
+	requires( 'postgresql', '9.4', GREATER | EQUAL)
+
+	packageName = 'dell-smi-service-server-inventory'
+	release = _release
+	arch = 'all'
+	os = _os
+
+	from fileTree( "build/libs" ), {
+        include "*.jar"
+        fileMode = 0755
+		user = "root"
+		addParentDirs = true
+	    into  '/opt/dell/smi/service-server-inventory'
+    }
+
+	from fileTree("./"), {
+        include "application.yml"
+        fileMode = 0755
+		//user = "root"
+		//addParentDirs = true
+	    into  '/opt/dell/smi/service-server-inventory'
+    }
+
+	from fileTree( "pkg" ), {
+        include "dell-server-inventory.service"
+		fileMode = 0777
+	    into  '/etc/systemd/system'
+    }
+	link('/etc/systemd/system/multi-user.target.wants/dell-server-inventory.service', '/etc/systemd/system/dell-server-inventory.service')
+}
+

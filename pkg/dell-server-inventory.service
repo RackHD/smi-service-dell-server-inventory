@@ -1,0 +1,11 @@
+[Unit]
+Description=dell-server-inventory
+After=syslog.target
+
+[Service]
+User=devuser
+ExecStart=/opt/dell/smi/service-server-inventory/application.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
