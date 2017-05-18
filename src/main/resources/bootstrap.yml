@@ -21,6 +21,8 @@ spring:
     name: SERVER-INVENTORY
   cloud:
     consul:
+      discovery:
+        preferIpAddress: true
       enabled: true
       host: service-registry
       port: 8500
