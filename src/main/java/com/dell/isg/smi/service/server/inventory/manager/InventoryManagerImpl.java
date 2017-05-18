@@ -28,7 +28,7 @@ import com.dell.isg.smi.adapter.server.IServerDeviceHardwareAdapter;
 import com.dell.isg.smi.adapter.server.model.HardwareInventory;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.commons.elm.exception.RuntimeCoreException;
-import com.dell.isg.smi.commons.elm.utilities.CustomRecursiveToStringStyle;
+import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
 import com.dell.isg.smi.commons.model.common.Credential;
 import com.dell.isg.smi.commons.model.common.Defaults;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackRequest;
