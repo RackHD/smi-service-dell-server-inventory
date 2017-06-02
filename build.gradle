@@ -83,12 +83,12 @@ repositories {
 }
 
 dependencies {
-	compile "com.dell.isg.smi:wsmanlib:1.0.29"
-	compile "com.dell.isg.smi:wsmanclient:+"
+	compile "com.dell.isg.smi:wsmanlib:1.0.40"
+	compile "com.dell.isg.smi:wsmanclient:1.0.25"
     compile 'com.dell.isg.smi:commons-elm:1.0.76'
     compile 'com.dell.isg.smi:commons-utilities:1.0.26'
     compile 'com.dell.isg.smi:commons-model:1.0.80'
-    compile "com.dell.isg.smi:adapter-server:1.0.33"
+    compile "com.dell.isg.smi:adapter-server:1.0.45"
 	compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.springframework.boot:spring-boot-starter-actuator"
