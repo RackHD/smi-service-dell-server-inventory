@@ -3,7 +3,6 @@
  */
 package com.dell.isg.smi.service.server.inventory.Transformer;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import com.dell.isg.smi.adapter.server.model.HeadRoom;
 import com.dell.isg.smi.adapter.server.model.PowerMonitoring;
 import com.dell.isg.smi.adapter.server.model.PowerStatistics;
 import com.dell.isg.smi.adapter.server.model.Storage;
-import com.dell.isg.smi.commons.utilities.datetime.DateTimeUtils;
 import com.dell.isg.smi.commons.model.manager.IdracCardString;
 import com.dell.isg.smi.commons.model.server.inventory.HwBattery;
 import com.dell.isg.smi.commons.model.server.inventory.HwController;
@@ -36,6 +34,7 @@ import com.dell.isg.smi.commons.model.server.inventory.HwTemperature;
 import com.dell.isg.smi.commons.model.server.inventory.HwVirtualDisk;
 import com.dell.isg.smi.commons.model.server.inventory.HwVoltage;
 import com.dell.isg.smi.commons.model.server.inventory.ServerHardwareInventory;
+import com.dell.isg.smi.commons.utilities.datetime.DateTimeUtils;
 import com.dell.isg.smi.service.server.inventory.utilities.PatternUtils;
 import com.dell.isg.smi.wsman.command.entity.CPUView;
 import com.dell.isg.smi.wsman.command.entity.ControllerView;
@@ -77,7 +76,7 @@ public class TranformerUtil {
     }
 
 
-    private static HwStorage transformStorage(final Storage storage) throws ParseException {
+    private static HwStorage transformStorage(final Storage storage) {
         HwStorage hwStorage = new HwStorage();
         if (storage == null) {
             return hwStorage;
@@ -159,7 +158,7 @@ public class TranformerUtil {
     }
 
 
-    private static List<HwEnclosure> transformEnclosure(final List<EnclosureView> enclosureViewList) throws ParseException {
+    private static List<HwEnclosure> transformEnclosure(final List<EnclosureView> enclosureViewList) {
         List<HwEnclosure> hwenclosureList = new ArrayList<HwEnclosure>();
         if (CollectionUtils.isEmpty(enclosureViewList)) {
             return hwenclosureList;
@@ -342,7 +341,7 @@ public class TranformerUtil {
     }
 
 
-    private static HwPowerMonitoring transformPowerMonitor(PowerMonitoring powerMonitoring) throws ParseException {
+    private static HwPowerMonitoring transformPowerMonitor(PowerMonitoring powerMonitoring) {
 
         HwPowerMonitoring hwPowerMonitoring = new HwPowerMonitoring();
         if (powerMonitoring == null) {
