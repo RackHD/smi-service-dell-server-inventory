@@ -3,6 +3,7 @@
  */
 package com.dell.isg.smi.service.server.inventory.Transformer;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,8 @@ import com.dell.isg.smi.adapter.server.model.HeadRoom;
 import com.dell.isg.smi.adapter.server.model.PowerMonitoring;
 import com.dell.isg.smi.adapter.server.model.PowerStatistics;
 import com.dell.isg.smi.adapter.server.model.Storage;
-import com.dell.isg.smi.commons.elm.utilities.DateTimeUtils;
+import com.dell.isg.smi.commons.utilities.datetime.DateTimeUtils;
+import com.dell.isg.smi.commons.model.manager.IdracCardString;
 import com.dell.isg.smi.commons.model.server.inventory.HwBattery;
 import com.dell.isg.smi.commons.model.server.inventory.HwController;
 import com.dell.isg.smi.commons.model.server.inventory.HwCpu;
@@ -41,6 +43,7 @@ import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
 import com.dell.isg.smi.wsman.command.entity.EnclosureView;
 import com.dell.isg.smi.wsman.command.entity.FanView;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 import com.dell.isg.smi.wsman.command.entity.MemoryView;
 import com.dell.isg.smi.wsman.command.entity.NumericSensorView;
 import com.dell.isg.smi.wsman.command.entity.PhysicalDiskView;
@@ -74,7 +77,7 @@ public class TranformerUtil {
     }
 
 
-    private static HwStorage transformStorage(final Storage storage) {
+    private static HwStorage transformStorage(final Storage storage) throws ParseException {
         HwStorage hwStorage = new HwStorage();
         if (storage == null) {
             return hwStorage;
@@ -156,7 +159,7 @@ public class TranformerUtil {
     }
 
 
-    private static List<HwEnclosure> transformEnclosure(final List<EnclosureView> enclosureViewList) {
+    private static List<HwEnclosure> transformEnclosure(final List<EnclosureView> enclosureViewList) throws ParseException {
         List<HwEnclosure> hwenclosureList = new ArrayList<HwEnclosure>();
         if (CollectionUtils.isEmpty(enclosureViewList)) {
             return hwenclosureList;
@@ -339,7 +342,7 @@ public class TranformerUtil {
     }
 
 
-    private static HwPowerMonitoring transformPowerMonitor(PowerMonitoring powerMonitoring) {
+    private static HwPowerMonitoring transformPowerMonitor(PowerMonitoring powerMonitoring) throws ParseException {
 
         HwPowerMonitoring hwPowerMonitoring = new HwPowerMonitoring();
         if (powerMonitoring == null) {
@@ -720,6 +723,33 @@ public class TranformerUtil {
         hwSystem.setMemoryRollupStatus(system.getMemoryRollupStatus() != null ? String.valueOf(system.getMemoryRollupStatus().getValue()) : null);
 
         return hwSystem;
+    }
+
+    public static List<IdracCardString> transformIdracString(List<IDRACCardStringView> isvList) throws Exception {
+        List<IdracCardString> icsList= new ArrayList<>();
+        if (CollectionUtils.isEmpty(isvList)) {
+            return icsList;
+        }
+
+        for (IDRACCardStringView icsv : isvList) {
+            IdracCardString ics = new IdracCardString();
+            ics.setAttributeDisplayName(icsv.getAttributeDisplayName());
+            ics.setAttributeName(icsv.getAttributeName());
+            ics.setCurrentValue(icsv.getCurrentValue());
+            ics.setDefaultValue(icsv.getDefaultValue());
+            ics.setDependency(icsv.getDependency());
+            ics.setDisplayOrder(icsv.getDisplayOrder());
+            ics.setFqdd(icsv.getfQDD());
+            ics.setGroupDisplayName(icsv.getGroupDisplayName());
+            ics.setGroupId(icsv.getGroupID());
+            ics.setInstanceId(icsv.getInstanceID());
+            ics.setIsReadOnly(icsv.getIsReadOnly());
+            ics.setMaxLength(icsv.getMaxLength());
+            ics.setMinLength(icsv.getMinLength());
+            ics.setPendingValue(icsv.getPendingValue());
+            icsList.add(ics);
+        }
+        return icsList;
     }
 
 }

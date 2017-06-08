@@ -27,6 +27,7 @@ import com.dell.isg.smi.commons.model.common.InventoryCallbackRequest;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackResponse;
 import com.dell.isg.smi.commons.model.common.InventoryInformation;
 import com.dell.isg.smi.commons.model.common.ResponseString;
+import com.dell.isg.smi.commons.model.manager.Manager;
 import com.dell.isg.smi.commons.model.server.inventory.HwNic;
 import com.dell.isg.smi.commons.model.server.inventory.HwSystem;
 import com.dell.isg.smi.commons.model.server.inventory.ServerHardwareInventory;
@@ -39,6 +40,7 @@ import com.dell.isg.smi.wsman.command.entity.DCIMBIOSConfig;
 import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSoftwareIdentityType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -288,5 +290,34 @@ public class ServerInventoryController {
     // return inventoryManagerImpl.dummy(inventoryCallbackRequest);
     // }
     //
+
+    @RequestMapping(value = "/manager", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
+    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete server hardware inventory throu wsman.", response = Manager.class)
+    // @ApiImplicitParams({
+    // @ApiImplicitParam(name = "credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Manager.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    public Manager getIdracDetails(@RequestBody Credential credential) {
+        logger.trace("Credential for hardware inventory : ", credential.getAddress(), credential.getUserName());
+        Manager manager = null;
+        if (credential == null || StringUtils.isEmpty(credential.getAddress())) {
+            BadRequestException badRequestException = new BadRequestException();
+            badRequestException.setErrorCode(EnumErrorCode.IOIDENTITY_INVALID_INPUT);
+            throw badRequestException;
+        }
+        try {
+            WsmanCredentials wsmanCredentials = new WsmanCredentials(credential.getAddress(), credential.getUserName(), credential.getPassword());
+            List<IDRACCardStringView> result = inventoryManagerImpl.getIdracStringView(wsmanCredentials);
+            manager = new Manager();
+            manager.setStringViewList(TranformerUtil.transformIdracString(result));
+        } catch (Exception e) {
+            logger.error("Exception occured in discovery : ", e);
+            RuntimeCoreException runtimeCoreException = new RuntimeCoreException(e);
+            runtimeCoreException.setErrorCode(EnumErrorCode.ENUM_SERVER_ERROR);
+            throw runtimeCoreException;
+        }
+        logger.trace("Manager Response : ", ReflectionToStringBuilder.toString(manager, new CustomRecursiveToStringStyle(99)));
+        return manager;
+    }
+
 
 }
