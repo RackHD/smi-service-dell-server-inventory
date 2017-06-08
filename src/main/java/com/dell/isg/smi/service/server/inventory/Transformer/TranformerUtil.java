@@ -16,7 +16,7 @@ import com.dell.isg.smi.adapter.server.model.HeadRoom;
 import com.dell.isg.smi.adapter.server.model.PowerMonitoring;
 import com.dell.isg.smi.adapter.server.model.PowerStatistics;
 import com.dell.isg.smi.adapter.server.model.Storage;
-import com.dell.isg.smi.commons.elm.utilities.DateTimeUtils;
+import com.dell.isg.smi.commons.model.manager.IdracCardString;
 import com.dell.isg.smi.commons.model.server.inventory.HwBattery;
 import com.dell.isg.smi.commons.model.server.inventory.HwController;
 import com.dell.isg.smi.commons.model.server.inventory.HwCpu;
@@ -34,6 +34,7 @@ import com.dell.isg.smi.commons.model.server.inventory.HwTemperature;
 import com.dell.isg.smi.commons.model.server.inventory.HwVirtualDisk;
 import com.dell.isg.smi.commons.model.server.inventory.HwVoltage;
 import com.dell.isg.smi.commons.model.server.inventory.ServerHardwareInventory;
+import com.dell.isg.smi.commons.utilities.datetime.DateTimeUtils;
 import com.dell.isg.smi.service.server.inventory.utilities.PatternUtils;
 import com.dell.isg.smi.wsman.command.entity.CPUView;
 import com.dell.isg.smi.wsman.command.entity.ControllerView;
@@ -41,6 +42,7 @@ import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
 import com.dell.isg.smi.wsman.command.entity.EnclosureView;
 import com.dell.isg.smi.wsman.command.entity.FanView;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 import com.dell.isg.smi.wsman.command.entity.MemoryView;
 import com.dell.isg.smi.wsman.command.entity.NumericSensorView;
 import com.dell.isg.smi.wsman.command.entity.PhysicalDiskView;
@@ -169,8 +171,8 @@ public class TranformerUtil {
             hwEnclosure.setEmmCount(NumberUtils.toInt(enclosureView.geteMMCount()));
             hwEnclosure.setFanCount(NumberUtils.toInt(enclosureView.getFanCount()));
             hwEnclosure.setInstanceId(enclosureView.getInstanceID());
-            hwEnclosure.setLastSystemInventoryTime(DateTimeUtils.getIsoDateString(enclosureView.getLastSystemInventoryTime(), TransformerAssemblerConstants.ENCLOSURE_DATE_FORMAT));
-            hwEnclosure.setLastUpdateTime(DateTimeUtils.getIsoDateString(enclosureView.getLastUpdateTime(), TransformerAssemblerConstants.ENCLOSURE_DATE_FORMAT));
+            hwEnclosure.setLastSystemInventoryTime(getIsoDateString(enclosureView.getLastSystemInventoryTime(), TransformerAssemblerConstants.ENCLOSURE_DATE_FORMAT));
+            hwEnclosure.setLastUpdateTime(getIsoDateString(enclosureView.getLastUpdateTime(), TransformerAssemblerConstants.ENCLOSURE_DATE_FORMAT));
             hwEnclosure.setPrimaryStatus(enclosureView.getPrimaryStatus());
             hwEnclosure.setProductName(enclosureView.getProductName());
             hwEnclosure.setPsuCount(NumberUtils.toInt(enclosureView.getpSUCount()));
@@ -355,37 +357,37 @@ public class TranformerUtil {
         PowerStatistics powerStatistics = powerMonitoring.getPowerStatistics();
         if (powerStatistics != null) {
             hwPowerMonitoring.setEnergyConsumption(powerStatistics.getEnergyConsumption());
-            hwPowerMonitoring.setEnergyConsumptionStartDateTime(DateTimeUtils.getIsoDateString(powerStatistics.getEnergyConsumptionStartDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
-            hwPowerMonitoring.setEnergyConsumptionEndDateTime(DateTimeUtils.getIsoDateString(powerStatistics.getEnergyConsumptionEndDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setEnergyConsumptionStartDateTime(getIsoDateString(powerStatistics.getEnergyConsumptionStartDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setEnergyConsumptionEndDateTime(getIsoDateString(powerStatistics.getEnergyConsumptionEndDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
 
             hwPowerMonitoring.setSystemPeakPower(powerStatistics.getSystemPeakPower());
-            hwPowerMonitoring.setSystemPeakPowerStartDateTime(DateTimeUtils.getIsoDateString(powerStatistics.getSystemPeakPowerStartDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
-            hwPowerMonitoring.setSystemPeakPowerEndDateTime(DateTimeUtils.getIsoDateString(powerStatistics.getSystemPeakPowerEndDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setSystemPeakPowerStartDateTime(getIsoDateString(powerStatistics.getSystemPeakPowerStartDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setSystemPeakPowerEndDateTime(getIsoDateString(powerStatistics.getSystemPeakPowerEndDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
 
             hwPowerMonitoring.setSystemPeakAmps(powerStatistics.getSystemPeakAmps());
-            hwPowerMonitoring.setPeakAmpsStartDateTime(DateTimeUtils.getIsoDateString(powerStatistics.getPeakAmpsStartDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
-            hwPowerMonitoring.setPeakAmpsEndDateTime(DateTimeUtils.getIsoDateString(powerStatistics.getPeakAmpsEndDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setPeakAmpsStartDateTime(getIsoDateString(powerStatistics.getPeakAmpsStartDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setPeakAmpsEndDateTime(getIsoDateString(powerStatistics.getPeakAmpsEndDateTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
 
             hwPowerMonitoring.setLastHourPeakAverage(powerStatistics.getLastHourPeakAverage());
-            hwPowerMonitoring.setLastHourPeakTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastHourPeakTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastHourPeakTime(getIsoDateString(powerStatistics.getLastHourPeakTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
             hwPowerMonitoring.setLastHourPeakMax(powerStatistics.getLastHourPeakMax());
-            hwPowerMonitoring.setLastHourPeakMaxTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastHourPeakMaxTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastHourPeakMaxTime(getIsoDateString(powerStatistics.getLastHourPeakMaxTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
             hwPowerMonitoring.setLastHourPeakMin(powerStatistics.getLastHourPeakMin());
-            hwPowerMonitoring.setLastHourPeakMinTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastHourPeakMinTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastHourPeakMinTime(getIsoDateString(powerStatistics.getLastHourPeakMinTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
 
             hwPowerMonitoring.setLastDayPeakAverage(powerStatistics.getLastDayPeakAverage());
-            hwPowerMonitoring.setLastDayPeakTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastDayPeakTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastDayPeakTime(getIsoDateString(powerStatistics.getLastDayPeakTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
             hwPowerMonitoring.setLastDayPeakMax(powerStatistics.getLastDayPeakMax());
-            hwPowerMonitoring.setLastDayPeakMaxTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastDayPeakMaxTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastDayPeakMaxTime(getIsoDateString(powerStatistics.getLastDayPeakMaxTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
             hwPowerMonitoring.setLastDayPeakMin(powerStatistics.getLastDayPeakMin());
-            hwPowerMonitoring.setLastDayPeakMinTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastDayPeakMinTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastDayPeakMinTime(getIsoDateString(powerStatistics.getLastDayPeakMinTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
 
             hwPowerMonitoring.setLastWeekPeakAverage(powerStatistics.getLastWeekPeakAverage());
-            hwPowerMonitoring.setLastWeekPeakTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastWeekPeakTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastWeekPeakTime(getIsoDateString(powerStatistics.getLastWeekPeakTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
             hwPowerMonitoring.setLastWeekPeakMax(powerStatistics.getLastWeekPeakMax());
-            hwPowerMonitoring.setLastWeekPeakMaxTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastWeekPeakMaxTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastWeekPeakMaxTime(getIsoDateString(powerStatistics.getLastWeekPeakMaxTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
             hwPowerMonitoring.setLastWeekPeakMin(powerStatistics.getLastWeekPeakMin());
-            hwPowerMonitoring.setLastWeekPeakMinTime(DateTimeUtils.getIsoDateString(powerStatistics.getLastWeekPeakMinTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
+            hwPowerMonitoring.setLastWeekPeakMinTime(getIsoDateString(powerStatistics.getLastWeekPeakMinTime(), TransformerAssemblerConstants.POWER_MONITORING_DATE_FORMAT));
         }
 
         HeadRoom headRoom = powerMonitoring.getHeadRoom();
@@ -396,6 +398,29 @@ public class TranformerUtil {
         return hwPowerMonitoring;
     }
 
+    private static String getIsoDateString(String dateString, String dateFormat) {
+        try{
+            return DateTimeUtils.getIsoDateString(dateString,  dateFormat );
+        }
+        catch(Exception e)
+        {
+            logger.debug("failed to parse string");
+            return "";
+        }
+    }
+    
+    
+    private static String getIsoDateString(String utcDateString, String[] datePatterns){
+        try{
+            return DateTimeUtils.getIsoDateString(utcDateString,  datePatterns );
+        }
+        catch(Exception e)
+        {
+            logger.debug("failed to parse string array");
+            return "";
+        }
+    }
+    
 
     private static List<HwSDCard> transformSdCards(List<VFlashView> vflashViews) {
         List<HwSDCard> hwSdCardList = new ArrayList<HwSDCard>();
@@ -650,7 +675,7 @@ public class TranformerUtil {
         hwSystem.setAssetTag(system.getAssetTag() != null ? system.getAssetTag().getValue() : null);
         hwSystem.setBatteryRollupStatus(system.getBatteryRollupStatus() != null ? String.valueOf(system.getBatteryRollupStatus().getValue()) : null);
         if (system.getBiosReleaseDate() != null) {
-            hwSystem.setBiosReleaseDate(DateTimeUtils.getIsoDateString(system.getBiosReleaseDate().getValue(), TransformerAssemblerConstants.DATE_PATTERNS));
+            hwSystem.setBiosReleaseDate(getIsoDateString(system.getBiosReleaseDate().getValue(), TransformerAssemblerConstants.DATE_PATTERNS));
         }
         hwSystem.setBiosVersionString(system.getBiosVersionString() != null ? system.getBiosVersionString().getValue() : null);
         hwSystem.setBoardPartNumber(system.getBoardPartNumber() != null ? system.getBoardPartNumber().getValue() : null);
@@ -720,6 +745,33 @@ public class TranformerUtil {
         hwSystem.setMemoryRollupStatus(system.getMemoryRollupStatus() != null ? String.valueOf(system.getMemoryRollupStatus().getValue()) : null);
 
         return hwSystem;
+    }
+
+    public static List<IdracCardString> transformIdracString(List<IDRACCardStringView> isvList) throws Exception {
+        List<IdracCardString> icsList= new ArrayList<>();
+        if (CollectionUtils.isEmpty(isvList)) {
+            return icsList;
+        }
+
+        for (IDRACCardStringView icsv : isvList) {
+            IdracCardString ics = new IdracCardString();
+            ics.setAttributeDisplayName(icsv.getAttributeDisplayName());
+            ics.setAttributeName(icsv.getAttributeName());
+            ics.setCurrentValue(icsv.getCurrentValue());
+            ics.setDefaultValue(icsv.getDefaultValue());
+            ics.setDependency(icsv.getDependency());
+            ics.setDisplayOrder(icsv.getDisplayOrder());
+            ics.setFqdd(icsv.getfQDD());
+            ics.setGroupDisplayName(icsv.getGroupDisplayName());
+            ics.setGroupId(icsv.getGroupID());
+            ics.setInstanceId(icsv.getInstanceID());
+            ics.setIsReadOnly(icsv.getIsReadOnly());
+            ics.setMaxLength(icsv.getMaxLength());
+            ics.setMinLength(icsv.getMinLength());
+            ics.setPendingValue(icsv.getPendingValue());
+            icsList.add(ics);
+        }
+        return icsList;
     }
 
 }

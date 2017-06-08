@@ -16,6 +16,7 @@ import com.dell.isg.smi.wsman.command.entity.DCIMBIOSConfig;
 import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSoftwareIdentityType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 
 public interface IInventoryManager {
 
@@ -44,5 +45,8 @@ public interface IInventoryManager {
 
 
     public BootOrderDetails getBootOrderDetails(WsmanCredentials wsmanCredentials) throws Exception;
+
+
+    public List<IDRACCardStringView> getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception;
 
 }
