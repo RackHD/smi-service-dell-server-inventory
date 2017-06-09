@@ -44,6 +44,7 @@ import com.dell.isg.smi.wsman.command.entity.DCIMBIOSConfig;
 import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSoftwareIdentityType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Component
@@ -159,9 +160,11 @@ public class InventoryManagerImpl implements IInventoryManager {
         case BOOT:
             return serverDeviceHardwareAdapterImpl.getBootOrderDetails(credential);
         case SELLOG:
-            return serverAdapterImpl.getServerLcLogEntries(credential);
-        case LCLOG:
             return serverAdapterImpl.getServerSelLogEntries(credential);
+        case LCLOG:
+            return serverAdapterImpl.getServerLcLogEntries(credential);
+        case MANAGER:
+            return TranformerUtil.transformIdracString(serverAdapterImpl.collectIdracString(credential));
         }
         return null;
     }
@@ -217,6 +220,11 @@ public class InventoryManagerImpl implements IInventoryManager {
     @Override
     public BootOrderDetails getBootOrderDetails(WsmanCredentials wsmanCredentials) throws Exception {
         return serverDeviceHardwareAdapterImpl.getBootOrderDetails(wsmanCredentials);
+    }
+    
+    @Override
+    public List<IDRACCardStringView> getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception {
+        return serverAdapterImpl.collectIdracString(wsmanCredentials);
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public enum ServerInventoryCallbackTypeEnum {
 
-    HARDWARE("hardware"), NICS("nics"), SOFTWARE("software"), SYSTEM("system"), BIOS("bios"), BOOT("boot"), SELLOG("sellog"), LCLOG("lclog");
+    HARDWARE("hardware"), NICS("nics"), SOFTWARE("software"), SYSTEM("system"), BIOS("bios"), BOOT("boot"), SELLOG("sellog"), LCLOG("lclog"), MANAGER("manager");
 
     private final String name;
 
