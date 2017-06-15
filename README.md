@@ -16,7 +16,7 @@ Under Construction. Docker container not yet published on DockerHub.....
 #### Startup
 Standalone, with no configuration settings provided:
 ```
-docker run --name service-server-inventory -p 0.0.0.0:46011:460011 -d rackhd/dell-server-inventory:latest
+docker run --name service-server-inventory -p 0.0.0.0:46011:46011 -d rackhd/dell-server-inventory:latest
 ```
 The service can also start up to bootstrap its configuration from consul.  More information about registration with and using advanced configuration settings provided by a Consul K/V store can be found in the online help.
 
