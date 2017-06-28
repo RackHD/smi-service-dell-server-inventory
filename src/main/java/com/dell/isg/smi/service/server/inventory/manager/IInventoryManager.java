@@ -6,6 +6,7 @@ package com.dell.isg.smi.service.server.inventory.manager;
 import java.util.List;
 import java.util.Set;
 
+import com.dell.isg.smi.adapter.server.model.IdracDetail;
 import com.dell.isg.smi.adapter.server.model.HardwareInventory;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackRequest;
@@ -38,7 +39,7 @@ public interface IInventoryManager {
     public List<DCIMSoftwareIdentityType> enumerateDcimSoftwareIdentity(WsmanCredentials wsmanCredentials) throws Exception;
 
 
-    public List<DCIMNICViewType> collectNics(WsmanCredentials wsmanCredentials) throws Exception;
+    public Object collectNics(WsmanCredentials wsmanCredentials) throws Exception;
 
 
     public DCIMBIOSConfig collectBiosConfig(WsmanCredentials wsmanCredentials) throws Exception;
@@ -47,6 +48,14 @@ public interface IInventoryManager {
     public BootOrderDetails getBootOrderDetails(WsmanCredentials wsmanCredentials) throws Exception;
 
 
-    public List<IDRACCardStringView> getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception;
+    public Object getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception;
+
+
+	public Object getIdracCardEnum(WsmanCredentials wsmanCredentials) throws Exception;
+
+
+	public Object getIdracDetails(WsmanCredentials wsmanCredentials) throws Exception;
+
+
 
 }

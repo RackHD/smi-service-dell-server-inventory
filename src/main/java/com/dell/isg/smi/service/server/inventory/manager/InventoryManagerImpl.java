@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import com.dell.isg.smi.adapter.server.IServerAdapter;
 import com.dell.isg.smi.adapter.server.IServerDeviceHardwareAdapter;
 import com.dell.isg.smi.adapter.server.model.HardwareInventory;
+import com.dell.isg.smi.adapter.server.model.IdracDetail;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.commons.elm.exception.RuntimeCoreException;
 import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
@@ -150,7 +151,8 @@ public class InventoryManagerImpl implements IInventoryManager {
         case HARDWARE:
             return TranformerUtil.transformHardwareInventory(serverAdapterImpl.collectHardwareInventory(credential), new ServerHardwareInventory(credential.getAddress()));
         case NICS:
-            return TranformerUtil.transformHwNic(serverAdapterImpl.collectNics(credential));
+            //return TranformerUtil.transformHwNic(serverAdapterImpl.collectNics(credential));
+        	serverAdapterImpl.collectNics(credential);
         case SOFTWARE:
             return serverAdapterImpl.enumerateDcimSoftwareIdentity(credential);
         case SYSTEM:
@@ -164,7 +166,8 @@ public class InventoryManagerImpl implements IInventoryManager {
         case LCLOG:
             return serverAdapterImpl.getServerLcLogEntries(credential);
         case MANAGER:
-            return TranformerUtil.transformIdracString(serverAdapterImpl.collectIdracString(credential));
+            //return TranformerUtil.transformIdracString(serverAdapterImpl.collectIdracString(credential));
+        	return serverAdapterImpl.collectIdracDetails(credential);
         }
         return null;
     }
@@ -206,7 +209,7 @@ public class InventoryManagerImpl implements IInventoryManager {
 
 
     @Override
-    public List<DCIMNICViewType> collectNics(WsmanCredentials wsmanCredentials) throws Exception {
+    public Object collectNics(WsmanCredentials wsmanCredentials) throws Exception {
         return serverAdapterImpl.collectNics(wsmanCredentials);
     }
 
@@ -223,8 +226,18 @@ public class InventoryManagerImpl implements IInventoryManager {
     }
     
     @Override
-    public List<IDRACCardStringView> getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception {
+    public Object getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception {
         return serverAdapterImpl.collectIdracString(wsmanCredentials);
+    }
+
+    @Override
+    public Object getIdracCardEnum(WsmanCredentials wsmanCredentials) throws Exception {
+        return serverAdapterImpl.collectIdracCardEnum(wsmanCredentials);
+    }
+
+    @Override
+    public Object getIdracDetails(WsmanCredentials wsmanCredentials) throws Exception {
+        return serverAdapterImpl.collectIdracDetails(wsmanCredentials);
     }
 
 }

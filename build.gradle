@@ -82,12 +82,15 @@ repositories {
 }
 
 dependencies {
-	compile "com.dell.isg.smi:wsmanlib:1.0-SNAPSHOT"
+//	compile "com.dell.isg.smi:wsmanlib:1.0-SNAPSHOT"
+    compile files('src/libs/wsmanlib-1.0-SNAPSHOT.jar')
 	compile "com.dell.isg.smi:wsmanclient:1.0-SNAPSHOT"
     compile 'com.dell.isg.smi:commons-elm:1.0-SNAPSHOT'
     compile 'com.dell.isg.smi:commons-utilities:1.0-SNAPSHOT'
-    compile 'com.dell.isg.smi:commons-model:1.0-SNAPSHOT'
-    compile "com.dell.isg.smi:adapter-server:1.0-SNAPSHOT"
+    //compile 'com.dell.isg.smi:commons-model:1.0-SNAPSHOT'
+    compile files('src/libs/commons-model-1.0-SNAPSHOT.jar')
+    //compile "com.dell.isg.smi:adapter-server:1.0-SNAPSHOT"
+    compile files('src/libs/adapter-server-1.0-SNAPSHOT.jar')
 	compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.springframework.boot:spring-boot-starter-actuator"
@@ -100,6 +103,7 @@ dependencies {
 	compile group: "io.springfox", name: "springfox-swagger2", version: "+"
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '+'
 	testCompile group: 'junit', name: 'junit', version: '+'
+	compile group: 'org.json', name: 'json', version: '20170516'
 }
 
 test {

@@ -45,6 +45,7 @@ import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import com.dell.isg.smi.adapter.server.model.IdracDetail;
 
 @RestController
 @RequestMapping("/api/1.0/server/inventory")
@@ -143,17 +144,18 @@ public class ServerInventoryController {
 
 
     @RequestMapping(value = "/nics", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/nics", nickname = "nics", notes = "This operation allow user to get complete server nics information throu wsman.", response = HwNic.class, responseContainer = "List")
+    @ApiOperation(value = "/nics", nickname = "nics", notes = "This operation allow user to get complete server nics information throu wsman.", response = Object.class, responseContainer = "List")
     // @ApiImplicitParams({
     // @ApiImplicitParam(name = "Credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = HwNic.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
-    public List<HwNic> nics(@RequestBody Credential credential) {
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    public Object nics(@RequestBody Credential credential) {
         logger.trace("Credential for NIC inventory : ", credential.getAddress(), credential.getUserName());
-        List<HwNic> result = null;
+        Object result = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(credential.getAddress(), credential.getUserName(), credential.getPassword());
-            List<DCIMNICViewType> nics = inventoryManagerImpl.collectNics(wsmanCredentials);
-            result = TranformerUtil.transformHwNic(nics);
+            Object nics = inventoryManagerImpl.collectNics(wsmanCredentials);
+//            result = TranformerUtil.transformHwNic(nics);
+            result = nics;
         } catch (Exception e) {
             logger.error("Exception occured in discovery : ", e);
             RuntimeCoreException runtimeCoreException = new RuntimeCoreException(e);
@@ -292,13 +294,13 @@ public class ServerInventoryController {
     //
 
     @RequestMapping(value = "/manager", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete server hardware inventory throu wsman.", response = Manager.class)
+    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete server hardware inventory throu wsman.", response = Object.class)
     // @ApiImplicitParams({
     // @ApiImplicitParam(name = "credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Manager.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
-    public Manager getIdracDetails(@RequestBody Credential credential) {
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    public Object getIdracDetails(@RequestBody Credential credential) {
         logger.trace("Credential for hardware inventory : ", credential.getAddress(), credential.getUserName());
-        Manager manager = null;
+        Object manager = null;
         if (credential == null || StringUtils.isEmpty(credential.getAddress())) {
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(EnumErrorCode.IOIDENTITY_INVALID_INPUT);
@@ -306,9 +308,10 @@ public class ServerInventoryController {
         }
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(credential.getAddress(), credential.getUserName(), credential.getPassword());
-            List<IDRACCardStringView> result = inventoryManagerImpl.getIdracStringView(wsmanCredentials);
-            manager = new Manager();
-            manager.setStringViewList(TranformerUtil.transformIdracString(result));
+//            List<IDRACCardStringView> result = inventoryManagerImpl.getIdracStringView(wsmanCredentials);
+            manager = inventoryManagerImpl.getIdracDetails(wsmanCredentials);
+            //manager = new Manager();
+            //manager.setStringViewList(TranformerUtil.transformIdracString(result));
         } catch (Exception e) {
             logger.error("Exception occured in discovery : ", e);
             RuntimeCoreException runtimeCoreException = new RuntimeCoreException(e);
