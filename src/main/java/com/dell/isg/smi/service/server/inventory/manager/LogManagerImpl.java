@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dell.isg.smi.adapter.server.IServerAdapter;
+import com.dell.isg.smi.adapter.server.inventory.IInventoryAdapter;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.service.server.inventory.controller.ServerLogsEnum;
 
@@ -18,7 +18,7 @@ import com.dell.isg.smi.service.server.inventory.controller.ServerLogsEnum;
 public class LogManagerImpl implements ILogManager {
 
     @Autowired
-    IServerAdapter serverAdapterImpl;
+    IInventoryAdapter inventoryAdapterImpl;
 
 
     @SuppressWarnings("unchecked")
@@ -26,9 +26,9 @@ public class LogManagerImpl implements ILogManager {
     public <T> List<T> getServerLogs(WsmanCredentials wsmanCredentials, String type) throws Exception {
         List<T> returnList = new ArrayList<T>();
         if (StringUtils.equals(type, ServerLogsEnum.SEL.getValue())) {
-            returnList = (List<T>) serverAdapterImpl.getServerSelLogEntries(wsmanCredentials);
+            returnList = (List<T>) inventoryAdapterImpl.collectSelLogs(wsmanCredentials);
         } else if (StringUtils.equals(type, ServerLogsEnum.LC.getValue())) {
-            returnList = (List<T>) serverAdapterImpl.getServerLcLogEntries(wsmanCredentials);
+            returnList = (List<T>) inventoryAdapterImpl.collectLcLogs(wsmanCredentials);
         }
         return returnList;
     }

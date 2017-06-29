@@ -1,2 +1,0 @@
-include ':commons-model'
-project(':commons-model').projectDir = new File(settingsDir, '../commons-model')
