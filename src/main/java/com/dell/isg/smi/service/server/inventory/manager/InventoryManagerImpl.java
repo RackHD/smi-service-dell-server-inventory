@@ -209,4 +209,9 @@ public class InventoryManagerImpl implements IInventoryManager {
         return inventoryAdapterImpl.collectIdracDetails(wsmanCredentials);
     }
 
+    @Override
+    public Object collect(WsmanCredentials wsmanCredentials, String dcim) throws Exception {
+        return inventoryAdapterImpl.collect(wsmanCredentials, dcim);
+    }
+
 }

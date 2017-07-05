@@ -4,6 +4,7 @@
 package com.dell.isg.smi.service.server.inventory.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,16 +22,24 @@ public class LogManagerImpl implements ILogManager {
     IInventoryAdapter inventoryAdapterImpl;
 
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> List<T> getServerLogs(WsmanCredentials wsmanCredentials, String type) throws Exception {
-        List<T> returnList = new ArrayList<T>();
+    public Object getServerLogs(WsmanCredentials wsmanCredentials, String type) throws Exception {
+        Object result = null;
         if (StringUtils.equals(type, ServerLogsEnum.SEL.getValue())) {
-            returnList = (List<T>) inventoryAdapterImpl.collectSelLogs(wsmanCredentials);
+            result = inventoryAdapterImpl.collectSelLogs(wsmanCredentials);
         } else if (StringUtils.equals(type, ServerLogsEnum.LC.getValue())) {
-            returnList = (List<T>) inventoryAdapterImpl.collectLcLogs(wsmanCredentials);
+            result = inventoryAdapterImpl.collectLcLogs(wsmanCredentials);
         }
-        return returnList;
+        // We always want to return a List for logs
+        if(result == null) {
+            return Collections.emptyList();
+        }
+        if(result instanceof List) {
+            return result;
+        }
+        List<Object> list = new ArrayList<Object>();
+        list.add(result);
+        return list;
     }
 
 }

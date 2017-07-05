@@ -34,4 +34,6 @@ public interface IInventoryManager {
 
 	Object collectIdracDetails(WsmanCredentials wsmanCredentials) throws Exception;
 
+    Object collect(WsmanCredentials wsmanCredentials, String dcim) throws Exception;
+
 }

@@ -42,8 +42,8 @@ public class ServerLogController {
     @RequestMapping(value = "/get/{type}", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "/get/{type}", nickname = "getLogs", notes = "This operation allow user to collect sel logs throu wsman.", response = Object.class, responseContainer = "List")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class, responseContainer = "List"), @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-    public List<Object> collectSelLogs(@RequestBody Credential credential, @PathVariable("type") String type) {
-        List<Object> result = new ArrayList<Object>();
+    public Object collectSelLogs(@RequestBody Credential credential, @PathVariable("type") String type) {
+        Object result = null;
         if (credential == null || StringUtils.isEmpty(credential.getAddress()) || StringUtils.isEmpty(type)) {
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(EnumErrorCode.IOIDENTITY_INVALID_INPUT);
