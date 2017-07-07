@@ -137,8 +137,7 @@ public class InventoryManagerImpl implements IInventoryManager {
         case HARDWARE:
             return inventoryAdapterImpl.collectHardwareInventory(credential);
         case NICS:
-            //return TranformerUtil.transformHwNic(serverAdapterImpl.collectNics(credential));
-        	inventoryAdapterImpl.collectNics(credential);
+            return inventoryAdapterImpl.collectNics(credential);
         case SOFTWARE:
             return inventoryAdapterImpl.collectSoftware(credential);
         case SYSTEM:
@@ -152,8 +151,7 @@ public class InventoryManagerImpl implements IInventoryManager {
         case LCLOG:
             return inventoryAdapterImpl.collectLcLogs(credential);
         case MANAGER:
-            //return TranformerUtil.transformIdracString(serverAdapterImpl.collectIdracString(credential));
-        	return inventoryAdapterImpl.collectIdracDetails(credential);
+            return inventoryAdapterImpl.collectIdracDetails(credential);
         }
         return null;
     }
