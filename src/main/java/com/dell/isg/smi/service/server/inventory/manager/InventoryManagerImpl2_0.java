@@ -23,38 +23,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.client.RestTemplate;
 
-import com.dell.isg.smi.adapter.server.IServerAdapter;
-import com.dell.isg.smi.adapter.server.IServerDeviceHardwareAdapter;
-import com.dell.isg.smi.adapter.server.model.HardwareInventory;
+import com.dell.isg.smi.adapter.server.inventory.IInventoryAdapter;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.commons.elm.exception.RuntimeCoreException;
-import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
 import com.dell.isg.smi.commons.model.common.Credential;
 import com.dell.isg.smi.commons.model.common.Defaults;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackRequest;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackResponse;
 import com.dell.isg.smi.commons.model.common.InventoryInformation;
 import com.dell.isg.smi.commons.model.common.Options;
-import com.dell.isg.smi.commons.model.server.inventory.ServerHardwareInventory;
+import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
 import com.dell.isg.smi.service.server.exception.EnumErrorCode;
-import com.dell.isg.smi.service.server.inventory.Transformer.TranformerUtil;
-import com.dell.isg.smi.service.server.inventory.manager.thread.ServerInventoryCollectionThread;
-import com.dell.isg.smi.wsman.command.entity.BootOrderDetails;
-import com.dell.isg.smi.wsman.command.entity.DCIMBIOSConfig;
-import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
-import com.dell.isg.smi.wsman.command.entity.DCIMSoftwareIdentityType;
-import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
-import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
+import com.dell.isg.smi.service.server.inventory.manager.thread.ServerInventoryCollectionThread2_0;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Component
-public class InventoryManagerImpl implements IInventoryManager {
+public class InventoryManagerImpl2_0 implements IInventoryManager2_0 {
 
     @Autowired
-    IServerAdapter serverAdapterImpl;
-
-    @Autowired
-    IServerDeviceHardwareAdapter serverDeviceHardwareAdapterImpl;
+    IInventoryAdapter inventoryAdapterImpl;
 
     private static final int SERVER_INVENTORY_THREAD_POOL = 1000;
 
@@ -82,7 +69,7 @@ public class InventoryManagerImpl implements IInventoryManager {
         if (serverInfos.size() > 0) {
             ExecutorService executor = Executors.newFixedThreadPool(SERVER_INVENTORY_THREAD_POOL);
             for (InventoryInformation serverInfo : serverInfos) {
-                Runnable serverDiscoverTask = new ServerInventoryCollectionThread(serverInfo, serverAdapterImpl);
+                Runnable serverDiscoverTask = new ServerInventoryCollectionThread2_0(serverInfo, inventoryAdapterImpl);
                 executor.execute(serverDiscoverTask);
             }
             executor.shutdown();
@@ -148,83 +135,81 @@ public class InventoryManagerImpl implements IInventoryManager {
 
         switch (typeEnum) {
         case HARDWARE:
-            return TranformerUtil.transformHardwareInventory(serverAdapterImpl.collectHardwareInventory(credential), new ServerHardwareInventory(credential.getAddress()));
+            return inventoryAdapterImpl.collectHardwareInventory(credential);
         case NICS:
-            return TranformerUtil.transformHwNic(serverAdapterImpl.collectNics(credential));
+            return inventoryAdapterImpl.collectNics(credential);
         case SOFTWARE:
-            return serverAdapterImpl.enumerateDcimSoftwareIdentity(credential);
+            return inventoryAdapterImpl.collectSoftware(credential);
         case SYSTEM:
-            return TranformerUtil.transformHwSystem(serverAdapterImpl.collectSystemInfo(credential));
+            return inventoryAdapterImpl.collectSummary(credential);
         case BIOS:
-            return serverDeviceHardwareAdapterImpl.collectBiosConfig(credential);
+            return inventoryAdapterImpl.collectBios(credential);
         case BOOT:
-            return serverDeviceHardwareAdapterImpl.getBootOrderDetails(credential);
+            return inventoryAdapterImpl.collectBoot(credential);
         case SELLOG:
-            return serverAdapterImpl.getServerSelLogEntries(credential);
+            return inventoryAdapterImpl.collectSelLogs(credential);
         case LCLOG:
-            return serverAdapterImpl.getServerLcLogEntries(credential);
+            return inventoryAdapterImpl.collectLcLogs(credential);
         case MANAGER:
-            return TranformerUtil.transformIdracString(serverAdapterImpl.collectIdracString(credential));
+            return inventoryAdapterImpl.collectIdracDetails(credential);
         }
         return null;
     }
 
 
     @Override
-    public InventoryCallbackResponse dummy(InventoryCallbackRequest inventoryCallbackRequest) {
-        InventoryCallbackResponse inventoryCallbackResponse = null;
-        try {
-            Object dataObject = getInventoryObject(inventoryCallbackRequest.getType(), inventoryCallbackRequest.getCredential());
-            inventoryCallbackResponse = createCallbackResponse(dataObject, inventoryCallbackRequest.getType(), inventoryCallbackRequest.getCallbackGraph());
-        } catch (Exception e) {
-            logger.error("Exception occured in discovery : ", e);
-            RuntimeCoreException runtimeCoreException = new RuntimeCoreException(e);
-            runtimeCoreException.setErrorCode(EnumErrorCode.ENUM_SERVER_ERROR);
-            throw runtimeCoreException;
-        }
-        logger.trace("Hardware inventory Response : ", ReflectionToStringBuilder.toString(inventoryCallbackResponse, new CustomRecursiveToStringStyle(99)));
-        return inventoryCallbackResponse;
+    public Object collectHardwareInventory(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectHardwareInventory(wsmanCredentials);
     }
 
 
     @Override
-    public HardwareInventory collectHardwareInventory(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverAdapterImpl.collectHardwareInventory(wsmanCredentials);
+    public Object collectSummary(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectSummary(wsmanCredentials);
     }
 
 
     @Override
-    public DCIMSystemViewType collectSystemInfo(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverAdapterImpl.collectSystemInfo(wsmanCredentials);
+    public Object collectSoftware(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectSoftware(wsmanCredentials);
     }
 
 
     @Override
-    public List<DCIMSoftwareIdentityType> enumerateDcimSoftwareIdentity(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverAdapterImpl.enumerateDcimSoftwareIdentity(wsmanCredentials);
+    public Object collectNics(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectNics(wsmanCredentials);
     }
 
 
     @Override
-    public List<DCIMNICViewType> collectNics(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverAdapterImpl.collectNics(wsmanCredentials);
+    public Object collectBios(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectBios(wsmanCredentials);
     }
 
 
     @Override
-    public DCIMBIOSConfig collectBiosConfig(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverDeviceHardwareAdapterImpl.collectBiosConfig(wsmanCredentials);
-    }
-
-
-    @Override
-    public BootOrderDetails getBootOrderDetails(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverDeviceHardwareAdapterImpl.getBootOrderDetails(wsmanCredentials);
+    public Object collectBoot(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectBoot(wsmanCredentials);
     }
     
     @Override
-    public List<IDRACCardStringView> getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception {
-        return serverAdapterImpl.collectIdracString(wsmanCredentials);
+    public Object collectIdracString(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectIdracString(wsmanCredentials);
+    }
+
+    @Override
+    public Object collectIdracCardEnum(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectIdracCardEnum(wsmanCredentials);
+    }
+
+    @Override
+    public Object collectIdracDetails(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectIdracDetails(wsmanCredentials);
+    }
+
+    @Override
+    public Object collect(WsmanCredentials wsmanCredentials, String dcim) throws Exception {
+        return inventoryAdapterImpl.collect(wsmanCredentials, dcim);
     }
 
 }
