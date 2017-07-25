@@ -4,14 +4,13 @@
 package com.dell.isg.smi.service.server.inventory.manager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dell.isg.smi.adapter.server.inventory.IInventoryAdapter;
+import com.dell.isg.smi.adapter.server.IServerAdapter;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.service.server.inventory.controller.ServerLogsEnum;
 
@@ -19,27 +18,19 @@ import com.dell.isg.smi.service.server.inventory.controller.ServerLogsEnum;
 public class LogManagerImpl implements ILogManager {
 
     @Autowired
-    IInventoryAdapter inventoryAdapterImpl;
+    IServerAdapter serverAdapterImpl;
 
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Object getServerLogs(WsmanCredentials wsmanCredentials, String type) throws Exception {
-        Object result = null;
+    public <T> List<T> getServerLogs(WsmanCredentials wsmanCredentials, String type) throws Exception {
+        List<T> returnList = new ArrayList<T>();
         if (StringUtils.equals(type, ServerLogsEnum.SEL.getValue())) {
-            result = inventoryAdapterImpl.collectSelLogs(wsmanCredentials);
+            returnList = (List<T>) serverAdapterImpl.getServerSelLogEntries(wsmanCredentials);
         } else if (StringUtils.equals(type, ServerLogsEnum.LC.getValue())) {
-            result = inventoryAdapterImpl.collectLcLogs(wsmanCredentials);
+            returnList = (List<T>) serverAdapterImpl.getServerLcLogEntries(wsmanCredentials);
         }
-        // We always want to return a List for logs
-        if(result == null) {
-            return Collections.emptyList();
-        }
-        if(result instanceof List) {
-            return result;
-        }
-        List<Object> list = new ArrayList<Object>();
-        list.add(result);
-        return list;
+        return returnList;
     }
 
 }

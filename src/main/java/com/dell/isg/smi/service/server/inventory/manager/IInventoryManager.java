@@ -6,34 +6,47 @@ package com.dell.isg.smi.service.server.inventory.manager;
 import java.util.List;
 import java.util.Set;
 
+import com.dell.isg.smi.adapter.server.model.HardwareInventory;
 import com.dell.isg.smi.adapter.server.model.WsmanCredentials;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackRequest;
+import com.dell.isg.smi.commons.model.common.InventoryCallbackResponse;
 import com.dell.isg.smi.commons.model.common.InventoryInformation;
+import com.dell.isg.smi.wsman.command.entity.BootOrderDetails;
+import com.dell.isg.smi.wsman.command.entity.DCIMBIOSConfig;
+import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
+import com.dell.isg.smi.wsman.command.entity.DCIMSoftwareIdentityType;
+import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 
 public interface IInventoryManager {
 
-	List<InventoryInformation> inventory(Set<String> ips) throws Exception;
+    public List<InventoryInformation> inventory(Set<String> ips) throws Exception;
 
-	void processInventoryCallback(InventoryCallbackRequest inventoryCallbackRequest);
 
-	Object collectHardwareInventory(WsmanCredentials wsmanCredentials) throws Exception;
+    public void processInventoryCallback(InventoryCallbackRequest inventoryCallbackRequest);
 
-	Object collectSummary(WsmanCredentials wsmanCredentials) throws Exception;
 
-	Object collectSoftware(WsmanCredentials wsmanCredentials) throws Exception;
+    public InventoryCallbackResponse dummy(InventoryCallbackRequest inventoryCallbackRequest);
 
-	Object collectNics(WsmanCredentials wsmanCredentials) throws Exception;
 
-	Object collectBios(WsmanCredentials wsmanCredentials) throws Exception;
+    public HardwareInventory collectHardwareInventory(WsmanCredentials wsmanCredentials) throws Exception;
 
-	Object collectBoot(WsmanCredentials wsmanCredentials) throws Exception;
 
-	Object collectIdracString(WsmanCredentials wsmanCredentials) throws Exception;
+    public DCIMSystemViewType collectSystemInfo(WsmanCredentials wsmanCredentials) throws Exception;
 
-	Object collectIdracCardEnum(WsmanCredentials wsmanCredentials) throws Exception;
 
-	Object collectIdracDetails(WsmanCredentials wsmanCredentials) throws Exception;
+    public List<DCIMSoftwareIdentityType> enumerateDcimSoftwareIdentity(WsmanCredentials wsmanCredentials) throws Exception;
 
-    Object collect(WsmanCredentials wsmanCredentials, String dcim) throws Exception;
+
+    public List<DCIMNICViewType> collectNics(WsmanCredentials wsmanCredentials) throws Exception;
+
+
+    public DCIMBIOSConfig collectBiosConfig(WsmanCredentials wsmanCredentials) throws Exception;
+
+
+    public BootOrderDetails getBootOrderDetails(WsmanCredentials wsmanCredentials) throws Exception;
+
+
+    public List<IDRACCardStringView> getIdracStringView(WsmanCredentials wsmanCredentials) throws Exception;
 
 }

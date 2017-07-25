@@ -82,16 +82,13 @@ repositories {
 }
 
 dependencies {
-//	compile "com.dell.isg.smi:wsmanlib:1.0-SNAPSHOT"
-//	compile "com.dell.isg.smi:wsmanclient:1.0-SNAPSHOT"
-    compile 'com.dell.isg.smi:commons-elm:1.0-SNAPSHOT'
-    compile 'com.dell.isg.smi:commons-utilities:1.0-SNAPSHOT'
-    compile 'com.dell.isg.smi:commons-model:1.0-SNAPSHOT'
-    //compile "com.dell.isg.smi:adapter-server:1.0-SNAPSHOT"
-    //compile files('src/libs/wsmanlib-1.0-SNAPSHOT.jar')
-   // compile files('src/libs/adapter-server-1.0-SNAPSHOT.jar')
-//    compile project(':smi-lib-wsman')
-    compile project(':smi-lib-adapter-server')
+	compile "com.dell.isg.smi:wiseman:1.0-SNAPSHOT"
+	compile "com.dell.isg.smi:wsmanlib:1.0-SNAPSHOT"
+	compile "com.dell.isg.smi:wsmanclient:1.0-SNAPSHOT"
+    compile 'com.dell.isg.smi:commons-elm:1.0.76'
+    compile 'com.dell.isg.smi:commons-utilities:1.0.32'
+    compile 'com.dell.isg.smi:commons-model:1.0.80'
+    compile "com.dell.isg.smi:adapter-server:1.0-SNAPSHOT"
 	compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.springframework.boot:spring-boot-starter-actuator"
