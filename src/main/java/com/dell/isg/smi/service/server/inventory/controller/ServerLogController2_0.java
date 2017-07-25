@@ -20,7 +20,7 @@ import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
 import com.dell.isg.smi.commons.model.common.Credential;
 import com.dell.isg.smi.service.server.exception.BadRequestException;
 import com.dell.isg.smi.service.server.exception.EnumErrorCode;
-import com.dell.isg.smi.service.server.inventory.manager.ILogManager;
+import com.dell.isg.smi.service.server.inventory.manager.ILogManager2_0;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
 public class ServerLogController2_0 {
 
     @Autowired
-    ILogManager logManagerImpl;
+    ILogManager2_0 logManagerImpl;
 
     private static final Logger logger = LoggerFactory.getLogger(ServerLogController.class.getName());
 
