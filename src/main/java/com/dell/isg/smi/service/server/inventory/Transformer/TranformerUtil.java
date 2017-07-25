@@ -16,6 +16,7 @@ import com.dell.isg.smi.adapter.server.model.HeadRoom;
 import com.dell.isg.smi.adapter.server.model.PowerMonitoring;
 import com.dell.isg.smi.adapter.server.model.PowerStatistics;
 import com.dell.isg.smi.adapter.server.model.Storage;
+import com.dell.isg.smi.commons.model.manager.IdracCardString;
 import com.dell.isg.smi.commons.model.server.inventory.HwBattery;
 import com.dell.isg.smi.commons.model.server.inventory.HwController;
 import com.dell.isg.smi.commons.model.server.inventory.HwCpu;
@@ -41,6 +42,7 @@ import com.dell.isg.smi.wsman.command.entity.DCIMNICViewType;
 import com.dell.isg.smi.wsman.command.entity.DCIMSystemViewType;
 import com.dell.isg.smi.wsman.command.entity.EnclosureView;
 import com.dell.isg.smi.wsman.command.entity.FanView;
+import com.dell.isg.smi.wsman.command.entity.IDRACCardStringView;
 import com.dell.isg.smi.wsman.command.entity.MemoryView;
 import com.dell.isg.smi.wsman.command.entity.NumericSensorView;
 import com.dell.isg.smi.wsman.command.entity.PhysicalDiskView;
@@ -743,6 +745,33 @@ public class TranformerUtil {
         hwSystem.setMemoryRollupStatus(system.getMemoryRollupStatus() != null ? String.valueOf(system.getMemoryRollupStatus().getValue()) : null);
 
         return hwSystem;
+    }
+
+    public static List<IdracCardString> transformIdracString(List<IDRACCardStringView> isvList) throws Exception {
+        List<IdracCardString> icsList= new ArrayList<>();
+        if (CollectionUtils.isEmpty(isvList)) {
+            return icsList;
+        }
+
+        for (IDRACCardStringView icsv : isvList) {
+            IdracCardString ics = new IdracCardString();
+            ics.setAttributeDisplayName(icsv.getAttributeDisplayName());
+            ics.setAttributeName(icsv.getAttributeName());
+            ics.setCurrentValue(icsv.getCurrentValue());
+            ics.setDefaultValue(icsv.getDefaultValue());
+            ics.setDependency(icsv.getDependency());
+            ics.setDisplayOrder(icsv.getDisplayOrder());
+            ics.setFqdd(icsv.getfQDD());
+            ics.setGroupDisplayName(icsv.getGroupDisplayName());
+            ics.setGroupId(icsv.getGroupID());
+            ics.setInstanceId(icsv.getInstanceID());
+            ics.setIsReadOnly(icsv.getIsReadOnly());
+            ics.setMaxLength(icsv.getMaxLength());
+            ics.setMinLength(icsv.getMinLength());
+            ics.setPendingValue(icsv.getPendingValue());
+            icsList.add(ics);
+        }
+        return icsList;
     }
 
 }

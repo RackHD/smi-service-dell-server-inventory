@@ -163,8 +163,8 @@ public class InventoryManagerImpl implements IInventoryManager {
             return serverAdapterImpl.getServerSelLogEntries(credential);
         case LCLOG:
             return serverAdapterImpl.getServerLcLogEntries(credential);
-		default:
-			break;
+        case MANAGER:
+            return TranformerUtil.transformIdracString(serverAdapterImpl.collectIdracString(credential));
         }
         return null;
     }
