@@ -2,7 +2,7 @@ apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'java'
 apply plugin: 'eclipse'
-//apply plugin: 'org.sonarqube'
+apply plugin: 'org.sonarqube'
 apply plugin: 'nebula.rpm'
 apply plugin: 'nebula.deb'
 apply plugin: "com.github.hierynomus.license"
@@ -40,7 +40,7 @@ buildscript {
   	classpath "io.spring.gradle:dependency-management-plugin:+"
     classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	classpath(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '+' )
-	//classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:+"
+	classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:+"
 	classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
 	//classpath 'com.netflix.nebula:gradle-lint-plugin:latest.release'
   }
@@ -56,12 +56,12 @@ dependencyManagement {
 	}
 }
 
-//sonarqube {
-//    properties {
-//        property "sonar.projectName", "SMI :: Service :: Server Inventory"
-//        property "sonar.projectKey", "org.sonarqube:service-server-inventory"
-//    }
-//}
+sonarqube {
+    properties {
+        property "sonar.projectName", "SMI :: Service :: Server Inventory"
+        property "sonar.projectKey", "org.sonarqube:service-server-inventory"
+    }
+}
 
 springBoot {
     executable = true

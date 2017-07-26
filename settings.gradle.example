@@ -1,4 +1,2 @@
-include ':smi-lib-adapter-server'
-project(':smi-lib-adapter-server').projectDir = new File(settingsDir, '../smi-lib-adapter-server')
-//include ':smi-lib-wsman'
-//project(':smi-lib-wsman').projectDir = new File (settingsDir, '../smi-lib-wsman')
+include ':commons-model'
+project(':commons-model').projectDir = new File(settingsDir, '../commons-model')
