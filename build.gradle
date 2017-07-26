@@ -82,7 +82,7 @@ repositories {
 }
 
 dependencies {
-	compile "com.dell.isg.smi:wiseman:1.0-SNAPSHOT"
+	compile "com.dell.isg.smi:wiseman:1.0.5"
 	compile "com.dell.isg.smi:wsmanlib:1.0-SNAPSHOT"
 	compile "com.dell.isg.smi:wsmanclient:1.0-SNAPSHOT"
     compile 'com.dell.isg.smi:commons-elm:1.0-SNAPSHOT'
