@@ -16,10 +16,11 @@ def _url = 'http://support.dell.com'
 def _arch = 'x86_64'
 def _os = 'LINUX'
 def _release = 1
-
+def _sourcePaths=[]
 
 sourceCompatibility = 1.8
 version = "${version}"
+dockerTag = "${dockerTag}"
 group = 'com.dell.isg.smi'
 
 buildscript {
@@ -29,20 +30,18 @@ buildscript {
     	springCloudVersion = 'Camden.SR5'
 	}
    repositories {
-    mavenLocal()
-	maven {
-		url "${artifactory_contextUrl}/libs-release"
-		url "https://plugins.gradle.org/m2/"
-
-	}
+        mavenLocal()
+        maven {url "${artifactory_contextUrl}/libs-release"}
+        maven {url "https://plugins.gradle.org/m2/"} 
   }
   dependencies {
-  	classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	classpath(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '4.4.0' )
-	classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
-	classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
-	//classpath 'com.netflix.nebula:gradle-lint-plugin:latest.release'
+  	    classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.15"
+        classpath(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '4.4.0' )
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
+        //classpath 'com.netflix.nebula:gradle-lint-plugin:latest.release'
   }
 }
 
@@ -50,17 +49,16 @@ buildscript {
 //  rules  = ['dependency-parentheses','overridden-dependency-version','duplicate-dependency-class', 'all-dependency','unused-dependency']
 //}
 
+sonarqube {
+     properties {
+       property "sonar.projectName", "rackhd :: smi-service-dell-server-inventory"
+       property "sonar.projectKey", "${group}::smi-service-dell-server-inventory"
+     }
+}
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectName", "SMI :: Service :: Server Inventory"
-        property "sonar.projectKey", "org.sonarqube:service-server-inventory"
-    }
 }
 
 springBoot {
@@ -79,16 +77,14 @@ repositories {
 	mavenLocal()
 	maven { url "${artifactory_contextUrl}/libs-snapshot" }
 	maven { url "${artifactory_contextUrl}/libs-release" }
+	maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
-	//compile 'com.dell.isg.smi:wiseman:1.0.5'
-	compile 'com.dell.isg.smi:wsmanlib:1.0.50'
-	compile 'com.dell.isg.smi:wsmanclient:1.0.37'
+    compile 'com.dell.isg.smi:adapter-server:1.0.55'
     compile 'com.dell.isg.smi:commons-elm:1.0.76'
     compile 'com.dell.isg.smi:commons-utilities:1.0.32'
     compile 'com.dell.isg.smi:commons-model:1.0.89'
-    compile 'com.dell.isg.smi:adapter-server:1.0.55'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-tomcat'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
@@ -199,3 +195,36 @@ task generateDeb(type: Deb){
 	link('/etc/systemd/system/multi-user.target.wants/dell-server-inventory.service', '/etc/systemd/system/dell-server-inventory.service')
 }
 
+
+task buildSourcePathsArray(dependsOn: 'eclipseClasspath' ){
+	doLast{
+		def classpathFile = file('.classpath')
+		if( classpathFile.exists() ) {
+			def cpXml = new XmlParser().parse(classpathFile)
+			cpXml.classpathentry.each {
+				if('lib' == it.@kind ) {
+					if( it.@sourcepath == null ){
+						println 'missing source jar for:' + it.@path
+					}
+					else{
+					 	_sourcePaths.add(it.@sourcepath)
+					}
+				}
+			}
+		}
+		 
+		def arrayLength = _sourcePaths.size()
+		println 'sourcePaths length is:' + arrayLength
+	}
+}
+
+
+task dependencySourcesZip(type: Zip, dependsOn: 'buildSourcePathsArray' ) {
+	destinationDir = project.file('build/distributions')
+	destinationDir.mkdirs()
+	baseName = "smi-service-dell-server-inventory-dependency-sources"
+	version = "${dockerTag}"
+	outputs.upToDateWhen { false }
+ 
+    from _sourcePaths
+}
