@@ -7,13 +7,8 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 import java.util.Locale;
 
-import org.apache.catalina.connector.Connector;
-import org.apache.coyote.AbstractProtocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -75,29 +70,4 @@ public class Application extends WebMvcConfigurerAdapter {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("SMI Micro-service : Server Inventory").description("Micro-service for getting server inventory data via wsman.").termsOfServiceUrl("http://www.dell.com/smi/server/inventory").license("Dell SMI License Version 1.0").licenseUrl("www.dell.com/smi").version("1.0 dev").build();
     }
-
-
-    @Bean
-    public EmbeddedServletContainerFactory servletContainerFactory() {
-        TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-
-        // factory.addConnectorCustomizers(connector ->
-        // ((AbstractProtocol) connector.getProtocolHandler()).setConnectionTimeout(10000));
-
-        factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
-            @Override
-            public void customize(Connector connector) {
-                ((AbstractProtocol) connector.getProtocolHandler()).setMaxThreads(1000);
-                ((AbstractProtocol) connector.getProtocolHandler()).setMaxConnections(1000);
-                ((AbstractProtocol) connector.getProtocolHandler()).setMinSpareThreads(200);
-                ((AbstractProtocol) connector.getProtocolHandler()).setBacklog(1000);
-                ((AbstractProtocol) connector.getProtocolHandler()).setThreadPriority(Thread.MAX_PRIORITY);
-            }
-        });
-
-        // configure some more properties
-
-        return factory;
-    }
-
 }

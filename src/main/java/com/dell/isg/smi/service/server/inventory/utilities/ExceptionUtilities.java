@@ -14,18 +14,17 @@ import com.dell.isg.smi.commons.elm.exception.InvalidArgumentsException;
 import com.dell.isg.smi.commons.elm.exception.RuntimeCoreException;
 
 /**
- * Exception Handling util methods
- * 
- * @author Rahman_Muhammad
+ * Exception Handling util methods.
  *
+ * @author Rahman_Muhammad
  */
 public class ExceptionUtilities {
 
     /**
-     * Handles Invalid Argument Exception - adding ONE or multiple values as ONE attribute
+     * Handles Invalid Argument Exception - adding ONE or multiple values as ONE attribute.
      *
-     *
-     * @param Multiple valueNames
+     * @param valueNames the value names
+     * @throws InvalidArgumentsException the invalid arguments exception
      */
     public static void handleInvalidArgs(String... valueNames) throws InvalidArgumentsException {
         StringBuilder invalidArgs = new StringBuilder();
@@ -42,9 +41,9 @@ public class ExceptionUtilities {
     /**
      * Handles RuntimeException - added multiple values as ONE Attribute. No Linked Exception
      *
-     * @param errorID
-     * @param paramName
-     * @throws RuntimeCoreException
+     * @param errorID the error ID
+     * @param valueNames the value names
+     * @throws RuntimeCoreException the runtime core exception
      */
     public static void handleRuntimeCore(int errorID, String... valueNames) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException();
@@ -58,6 +57,15 @@ public class ExceptionUtilities {
     }
 
 
+    /**
+     * Handle runtime spectre.
+     *
+     * @param errorID the error ID
+     * @param LCErrorCode the LC error code
+     * @param LCErrorStr the LC error str
+     * @param valueNames the value names
+     * @throws RuntimeCoreException the runtime core exception
+     */
     public static void handleRuntimeSpectre(int errorID, String LCErrorCode, String LCErrorStr, String valueNames) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException();
         throw exception;
@@ -67,10 +75,10 @@ public class ExceptionUtilities {
     /**
      * Handles RuntimeException - added multiple values as ONE Attribute. Attach Linked Exception
      *
-     * @param errorID
-     * @param ex
-     * @param valueNames
-     * @throws RuntimeCoreException
+     * @param errorID the error ID
+     * @param ex the ex
+     * @param valueNames the value names
+     * @throws RuntimeCoreException the runtime core exception
      */
     public static void handleRuntimeCore(int errorID, Throwable ex, String... valueNames) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException(ex);
@@ -88,9 +96,9 @@ public class ExceptionUtilities {
     /**
      * Create exception and return. Do not throw. One attribute - attach linked Exception
      *
-     * @param errorID
-     * @param ex
-     * @param paramName
+     * @param errorID the error ID
+     * @param ex the ex
+     * @param paramName the param name
      * @return Spectre runtime exception.
      */
     public static RuntimeCoreException getSpectreRuntimeException(int errorID, Throwable ex, String paramName) {
@@ -104,6 +112,16 @@ public class ExceptionUtilities {
     }
 
 
+    /**
+     * Gets the spectre runtime exception.
+     *
+     * @param errorID the error ID
+     * @param ex the ex
+     * @param paramName the param name
+     * @param LCErrorCode the LC error code
+     * @param LCErrorStr the LC error str
+     * @return the spectre runtime exception
+     */
     public static RuntimeCoreException getSpectreRuntimeException(int errorID, Throwable ex, String paramName, String LCErrorCode, String LCErrorStr) {
 
         RuntimeCoreException exception = new RuntimeCoreException(ex);
@@ -117,10 +135,10 @@ public class ExceptionUtilities {
 
 
     /**
-     * Create exception and return No Throwable- Linked Exception
+     * Create exception and return No Throwable- Linked Exception.
      *
-     * @param errorID
-     * @param paramName
+     * @param errorID the error ID
+     * @param paramName the param name
      * @return Spectre Runtime Exception
      */
     public static RuntimeCoreException getCoreRuntimeException(int errorID, String paramName) {
@@ -134,6 +152,15 @@ public class ExceptionUtilities {
     }
 
 
+    /**
+     * Gets the core runtime exception.
+     *
+     * @param errorID the error ID
+     * @param paramName the param name
+     * @param LCErrorCode the LC error code
+     * @param LCErrorStr the LC error str
+     * @return the core runtime exception
+     */
     public static RuntimeCoreException getCoreRuntimeException(int errorID, String paramName, String LCErrorCode, String LCErrorStr) {
 
         RuntimeCoreException exception = new RuntimeCoreException();
@@ -150,7 +177,7 @@ public class ExceptionUtilities {
     /**
      * Create and return spectre exception with just Error ID.
      *
-     * @param errorID
+     * @param errorID the error ID
      * @return Spectre Runtime Exception
      */
     public static RuntimeCoreException getSpectreRuntimeException(int errorID) {
@@ -163,10 +190,10 @@ public class ExceptionUtilities {
 
 
     /**
-     * Create and return spectre exception with just Error ID and Linked Exception
+     * Create and return spectre exception with just Error ID and Linked Exception.
      *
-     * @param errorID
-     * @param ex
+     * @param errorID the error ID
+     * @param ex the ex
      * @return Spectre Runtime Exception
      */
     public static RuntimeCoreException getSpectreRuntimeException(int errorID, Throwable ex) {
@@ -181,9 +208,9 @@ public class ExceptionUtilities {
     /**
      * Create and throw exception with errorID and multiple attributes.
      *
-     * @param errorID
-     * @param attributeValues
-     * @throws RuntimeCoreException
+     * @param errorID the error ID
+     * @param attributeValues the attribute values
+     * @throws RuntimeCoreException the runtime core exception
      */
     public static void handleSpectreRuntimeException(int errorID, String... attributeValues) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException();
@@ -199,10 +226,10 @@ public class ExceptionUtilities {
     /**
      * Create and throw exception with errorID and multiple attributes. Plus linked exception
      *
-     * @param errorID
-     * @param ex
-     * @param attributeValues
-     * @throws RuntimeCoreException
+     * @param errorID the error ID
+     * @param ex the ex
+     * @param attributeValues the attribute values
+     * @throws RuntimeCoreException the runtime core exception
      */
     public static void handleSpectreRuntimeException(int errorID, Throwable ex, String... attributeValues) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException(ex);
@@ -216,10 +243,10 @@ public class ExceptionUtilities {
 
 
     /**
-     * Create and throw exception with errorID
+     * Create and throw exception with errorID.
      *
-     * @param errorID
-     * @throws RuntimeCoreException
+     * @param errorID the error ID
+     * @throws RuntimeCoreException the runtime core exception
      */
     public static void handleSpectreRuntimeException(int errorID) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException();
@@ -229,11 +256,11 @@ public class ExceptionUtilities {
 
 
     /**
-     * Create and throw exception with errorID Plus Linked Exception
+     * Create and throw exception with errorID Plus Linked Exception.
      *
-     * @param errorID
-     * @param ex
-     * @throws RuntimeCoreException
+     * @param errorID the error ID
+     * @param ex the ex
+     * @throws RuntimeCoreException the runtime core exception
      */
     public static void handleSpectreRuntimeException(int errorID, Throwable ex) throws RuntimeCoreException {
         RuntimeCoreException exception = new RuntimeCoreException(ex);
@@ -242,6 +269,13 @@ public class ExceptionUtilities {
     }
 
 
+    /**
+     * Handle idrac connection exception.
+     *
+     * @param e the e
+     * @param idracAddress the idrac address
+     * @param hostNameOrAddress the host name or address
+     */
     public static void handleIdracConnectionException(Throwable e, String idracAddress, String hostNameOrAddress) {
         RuntimeCoreException RuntimeCoreException = new RuntimeCoreException(e);
 
