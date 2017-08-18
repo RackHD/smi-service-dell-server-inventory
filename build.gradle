@@ -31,7 +31,6 @@ buildscript {
 	}
    repositories {
         mavenLocal()
-        maven {url "${artifactory_contextUrl}/libs-release"}
         maven {url "https://plugins.gradle.org/m2/"} 
   }
   dependencies {
@@ -75,8 +74,8 @@ jar {
 
 repositories {
 	mavenLocal()
-	maven { url "${artifactory_contextUrl}/libs-snapshot" }
-	maven { url "${artifactory_contextUrl}/libs-release" }
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+	maven { url "https://oss.sonatype.org/content/repositories/releases" }
 	maven { url "https://repo.maven.apache.org/maven2" }
 }
 
