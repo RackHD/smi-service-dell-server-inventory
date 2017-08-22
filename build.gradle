@@ -81,7 +81,7 @@ repositories {
 
 dependencies {
     //compile project(':smi-lib-adapter-server')
-    compile 'com.dell.isg.smi:adapter-server:1.0-SNAPSHOT'
+    compile 'com.dell.isg.smi:adapter-server:1.0.69' 
     compile 'com.dell.isg.smi:commons-elm:1.0.76'
     compile 'com.dell.isg.smi:commons-utilities:1.0.32'
     compile 'com.dell.isg.smi:commons-model:1.0.89'
