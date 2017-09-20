@@ -3,8 +3,12 @@
  */
 package com.dell.isg.smi.service.server.inventory.utilities;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.dell.isg.smi.commons.elm.exception.InvalidArgumentsException;
 import com.dell.isg.smi.commons.model.common.Credential;
+import com.dell.isg.smi.commons.model.common.DevicesIpsRequest;
 import com.dell.isg.smi.commons.model.common.InventoryCallbackRequest;
 import com.dell.isg.smi.commons.model.validation.ValidationResult;
 import com.dell.isg.smi.service.server.exception.BadRequestException;
@@ -35,6 +39,26 @@ public class ValidationUtilities {
         }
     }
     
+    /**
+     * Validate request payload.
+     *
+     * @param payload the payload
+     */
+    public static void validateRequestPayload(DevicesIpsRequest payload){
+        if (payload == null) {
+            BadRequestException badRequestException = new BadRequestException();
+            badRequestException.setErrorCode(EnumErrorCode.IOIDENTITY_INVALID_INPUT);
+            throw badRequestException;
+        }
+
+        ValidationResult validationResult = payload.validate();
+        if( ! validationResult.isValid() ) {
+            String innerMessage = validationResult.getMessage();
+            InvalidArgumentsException invalidArgumentsException = new InvalidArgumentsException("payload <"+ innerMessage + ">" );
+            throw invalidArgumentsException;
+        }
+    }
+
     /**
      * Validate request payload.
      *

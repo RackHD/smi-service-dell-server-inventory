@@ -71,7 +71,7 @@ public class ServerInventoryController {
             TranformerUtil.transformHardwareInventory(result, serverHardwareInventory);
             serverHardwareInventory.getSystem().setId(payload.getAddress());
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -97,7 +97,7 @@ public class ServerInventoryController {
             summary = TranformerUtil.transformHwSystem(result);
             summary.setId(payload.getAddress());
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -121,7 +121,7 @@ public class ServerInventoryController {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = inventoryManagerImpl.enumerateDcimSoftwareIdentity(wsmanCredentials);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -146,7 +146,7 @@ public class ServerInventoryController {
             List<DCIMNICViewType> nics = inventoryManagerImpl.collectNics(wsmanCredentials);
             result = TranformerUtil.transformHwNic(nics);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -170,7 +170,7 @@ public class ServerInventoryController {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = inventoryManagerImpl.collectBiosConfig(wsmanCredentials);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -194,7 +194,7 @@ public class ServerInventoryController {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = inventoryManagerImpl.getBootOrderDetails(wsmanCredentials);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -211,17 +211,13 @@ public class ServerInventoryController {
     // @ApiImplicitParam(name = "deviceIps", value = "DevicesIpsRequest", required = true, dataType = "DevicesIpsRequest.class", paramType = "Body", defaultValue = "no default") })
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = InventoryInformation.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public List<InventoryInformation> inventory(@RequestBody DevicesIpsRequest deviceIps) {
+        ValidationUtilities.validateRequestPayload(deviceIps);
         logger.trace("Ips submitted for inventory : ", ReflectionToStringBuilder.toString(deviceIps, new CustomRecursiveToStringStyle(99)));
         List<InventoryInformation> response = null;
-        if (deviceIps == null) {
-            BadRequestException badRequestException = new BadRequestException();
-            badRequestException.setErrorCode(EnumErrorCode.IOIDENTITY_INVALID_INPUT);
-            throw badRequestException;
-        }
         try {
             response = inventoryManagerImpl.inventory(Arrays.stream(deviceIps.getIps()).collect(Collectors.toSet()));
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
@@ -289,7 +285,7 @@ public class ServerInventoryController {
             manager = new Manager();
             manager.setStringViewList(TranformerUtil.transformIdracString(result));
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e);
+            logger.error("Exception occured in inventory : ", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
