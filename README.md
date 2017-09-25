@@ -61,6 +61,9 @@ http://<<ip>>:46011/api/1.0/server/inventory/callback
 - ###### _supported callback types are {hardware, software, nics, summary, boot and bios}_
 ---
 
+
+[API v2.0](https://github.com/prashanthlgowda/smi-service-dell-server-inventory/blob/2.0/index.pdf)
+
 ### Licensing
 This docker microservice is available under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.txt). 
 
