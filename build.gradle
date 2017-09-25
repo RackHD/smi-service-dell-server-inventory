@@ -6,6 +6,8 @@ apply plugin: 'org.sonarqube'
 apply plugin: 'nebula.rpm'
 apply plugin: 'nebula.deb'
 apply plugin: "com.github.hierynomus.license"
+apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'org.ajoberstar.git-publish'
 //apply plugin: 'nebula.lint'
 
 // rpm/deb package variables
@@ -28,10 +30,11 @@ buildscript {
 		springVersion = '4.3.6.RELEASE'
     	springBootVersion = '1.5.1.RELEASE'
     	springCloudVersion = 'Camden.SR5'
+    	generatedAsciidoc = file("${buildDir}/docs/asciidoc/generated")
 	}
    repositories {
         mavenLocal()
-        maven {url "${artifactory_contextUrl}/libs-release"}
+        jcenter()
         maven {url "https://plugins.gradle.org/m2/"} 
   }
   dependencies {
@@ -42,6 +45,9 @@ buildscript {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
         classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
         //classpath 'com.netflix.nebula:gradle-lint-plugin:latest.release'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.8'
+        classpath 'org.ajoberstar:gradle-git-publish:0.3.0'
   }
 }
 
@@ -75,8 +81,7 @@ jar {
 
 repositories {
 	mavenLocal()
-	maven { url "${artifactory_contextUrl}/libs-snapshot" }
-	maven { url "${artifactory_contextUrl}/libs-release" }
+	jcenter()
 	maven { url "https://repo.maven.apache.org/maven2" }
 }
 
@@ -93,14 +98,17 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
-	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
-	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
+	testCompile group: 'io.springfox', name:'springfox-staticdocs', version: '2.5.0'
 	testCompile group: 'junit', name: 'junit', version: '4.12'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	compile group: 'org.json', name: 'json', version: '20170516'
 }
 
 test {
     systemProperties 'property': 'value'
+    systemProperty 'staticdocs.outputDir', generatedAsciidoc
 }
 
 license {
@@ -227,4 +235,37 @@ task dependencySourcesZip(type: Zip, dependsOn: 'buildSourcePathsArray' ) {
 	outputs.upToDateWhen { false }
  
     from _sourcePaths
+}
+
+asciidoctor {
+    dependsOn test
+    sources {
+        include 'index.adoc'
+    }
+    backends = ['pdf']
+    attributes = [
+        doctype: 'article',
+        toc: 'left',
+        toclevels: '3',
+        numbered: '',
+        sectlinks: '',
+        sectanchors: '',
+        hardbreaks: '',
+        generated: generatedAsciidoc
+    ]
+}
+
+gitPublishPush.dependsOn asciidoctor
+
+gitPublish {
+    repoUri = 'https://github.com/prashanthlgowda/smi-service-dell-server-inventory.git'
+    branch = version
+    contents  {
+        from file(asciidoctor.outputDir.path + '/pdf/index.pdf')
+        into "."
+    }
+    preserve {
+        include '*'
+    }
+    commitMessage = 'Publishing a new api pdf' 
 }

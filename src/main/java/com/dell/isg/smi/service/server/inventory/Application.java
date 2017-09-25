@@ -70,10 +70,9 @@ public class Application extends WebMvcConfigurerAdapter {
     public Docket newsApi() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory").apiInfo(apiInfo()).select().paths(regex("/api.*")).build();
     }
-
-
+    
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("SMI Micro-service : Server Inventory").description("Micro-service for getting server inventory data via wsman.").termsOfServiceUrl("http://www.dell.com/smi/server/inventory").license("Dell SMI License Version 1.0").licenseUrl("www.dell.com/smi").version("1.0 dev").build();
+        return new ApiInfoBuilder().title("Server Inventory").description("Service for getting server inventory data via wsman.").termsOfServiceUrl("http://rackhd.readthedocs.io").license("Apache 2.0").licenseUrl("https://github.com/RackHD/smi-service-dell-server-inventory/blob/master/LICENSE").version("1.0 dev").build();
     }
 
 
