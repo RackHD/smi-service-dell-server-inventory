@@ -18,11 +18,13 @@ def _arch = 'x86_64'
 def _os = 'LINUX'
 def _release = 1
 def _sourcePaths=[]
+def apiVersion = ''
 
 sourceCompatibility = 1.8
 version = "${version}"
 dockerTag = "${dockerTag}"
 group = 'com.dell.isg.smi'
+apiVersion = 'api-'+"${version}"
 
 buildscript {
 	ext {
@@ -268,14 +270,14 @@ bintray {
     override = false
     pkg {
 		repo = 'smi-service-dell-server-inventory'
-		name = 'api-1.0'
+		name = apiVersion
 		userOrg = 'rackhd-smi'
 		desc = 'Swagger API for inventory service.'
 		licenses = ['Apache-2.0']
 		vcsUrl = 'https://rackhd-smi.bintray.com/smi-service-dell-server-inventory'
 		publicDownloadNumbers = true
 		version {
-			name = version
+			name = apiVersion
 			desc = 'apidoc'
 			vcsTag = 'master'
 		}
