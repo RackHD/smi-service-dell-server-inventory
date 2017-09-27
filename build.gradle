@@ -7,6 +7,7 @@ apply plugin: 'nebula.deb'
 apply plugin: "com.github.hierynomus.license"
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'org.ajoberstar.git-publish'
 //apply plugin: 'nebula.lint'
 
 // rpm/deb package variables
@@ -19,6 +20,27 @@ def _os = 'LINUX'
 def _release = 1
 def _sourcePaths=[]
 def apiVersion = ''
+
+def getCurrentTimestamp(){
+  new Date().format("MM-dd-yyyy_hh-mm")
+}
+
+def updateVersionProperties() {
+    def versionFile = file('src/main/resources/version.properties')
+    String versionProp = versionFile.getText('UTF-8')
+    println "updating version to '${version}' in ${versionFile}"
+    versionProp = versionProp.replaceAll(/version\.major=.*/, "version.major=${version}")
+    versionFile.write(versionProp, 'UTF-8')
+    println "updating docker tag to '${dockerTag}' in ${versionFile}"
+    versionProp = versionProp.replaceAll(/version\.tag=.*/, "version.tag=${dockerTag}")
+    versionFile.write(versionProp, 'UTF-8')
+    println "updating build number to '${build}' in ${versionFile}"
+    versionProp = versionProp.replaceAll(/version\.build=.*/, "version.build=${build}")
+    versionFile.write(versionProp, 'UTF-8')
+    println "updating build date to '${getCurrentTimestamp()}' in ${versionFile}"
+    versionProp = versionProp.replaceAll(/version\.date=.*/, "version.date=${getCurrentTimestamp()}")
+    versionFile.write(versionProp, 'UTF-8')
+}
 
 sourceCompatibility = 1.8
 version = "${version}"
@@ -49,6 +71,7 @@ buildscript {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
         classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'org.ajoberstar:gradle-git-publish:0.3.0'
   }
 }
 
@@ -70,6 +93,10 @@ dependencyManagement {
 
 springBoot {
     executable = true
+}
+
+allprojects {
+    updateVersionProperties()
 }
 
 jar {
@@ -243,7 +270,7 @@ asciidoctor {
     sources {
         include 'api.adoc'
     }
-    backends = ['html5', 'pdf']
+    backends = ['pdf']
     attributes = [
         doctype: 'book',
         toc: 'left',
@@ -282,4 +309,19 @@ bintray {
 			vcsTag = 'master'
 		}
 	}
+}
+
+gitPublishPush.dependsOn asciidoctor
+
+gitPublish {
+    repoUri = 'https://github.com/prashanthlgowda/smi-service-dell-server-inventory.git'
+    branch = version
+    contents  {
+        from file(asciidoctor.outputDir.path + '/pdf/api.pdf')
+        into "."
+    }
+    preserve {
+        include '*'
+    }
+    commitMessage = 'Publishing a new api pdf' 
 }
