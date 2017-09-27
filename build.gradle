@@ -7,7 +7,6 @@ apply plugin: 'nebula.deb'
 apply plugin: "com.github.hierynomus.license"
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'org.ajoberstar.git-publish'
 //apply plugin: 'nebula.lint'
 
 // rpm/deb package variables
@@ -26,20 +25,17 @@ def getCurrentTimestamp(){
 }
 
 def updateVersionProperties() {
-    def versionFile = file('src/main/resources/version.properties')
-    String versionProp = versionFile.getText('UTF-8')
-    println "updating version to '${version}' in ${versionFile}"
-    versionProp = versionProp.replaceAll(/version\.major=.*/, "version.major=${version}")
-    versionFile.write(versionProp, 'UTF-8')
-    println "updating docker tag to '${dockerTag}' in ${versionFile}"
-    versionProp = versionProp.replaceAll(/version\.tag=.*/, "version.tag=${dockerTag}")
-    versionFile.write(versionProp, 'UTF-8')
-    println "updating build number to '${build}' in ${versionFile}"
-    versionProp = versionProp.replaceAll(/version\.build=.*/, "version.build=${build}")
-    versionFile.write(versionProp, 'UTF-8')
-    println "updating build date to '${getCurrentTimestamp()}' in ${versionFile}"
-    versionProp = versionProp.replaceAll(/version\.date=.*/, "version.date=${getCurrentTimestamp()}")
-    versionFile.write(versionProp, 'UTF-8')
+    def buildInfoFile = file('src/main/resources/buildInfo.properties')
+    String buildInfoProp = buildInfoFile.getText('UTF-8')
+    println "updating version to '${version}' in ${buildInfoFile}"
+    buildInfoProp = buildInfoProp.replaceAll(/buildInfo\.version=.*/, "buildInfo.version=${version}")
+    buildInfoFile.write(buildInfoProp, 'UTF-8')
+    println "updating docker tag to '${dockerTag}' in ${buildInfoFile}"
+    buildInfoProp = buildInfoProp.replaceAll(/buildInfo\.tag=.*/, "buildInfo.tag=${dockerTag}")
+    buildInfoFile.write(buildInfoProp, 'UTF-8')
+    println "updating build date to '${getCurrentTimestamp()}' in ${buildInfoFile}"
+    buildInfoProp = buildInfoProp.replaceAll(/buildInfo\.date=.*/, "buildInfo.date=${getCurrentTimestamp()}")
+    buildInfoFile.write(buildInfoProp, 'UTF-8')
 }
 
 sourceCompatibility = 1.8
@@ -71,7 +67,6 @@ buildscript {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
         classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'org.ajoberstar:gradle-git-publish:0.3.0'
   }
 }
 
@@ -110,14 +105,16 @@ jar {
 repositories {
 	mavenLocal()
 	jcenter()
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+	maven { url "https://oss.sonatype.org/content/repositories/releases" }
 	maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
-    compile 'com.dell.isg.smi:adapter-server:1.0.55'
-    compile 'com.dell.isg.smi:commons-elm:1.0.76'
+    compile 'com.dell.isg.smi:adapter-server:1.0.71'
+    compile 'com.dell.isg.smi:commons-elm:1.0.82'
     compile 'com.dell.isg.smi:commons-utilities:1.0.32'
-    compile 'com.dell.isg.smi:commons-model:1.0.89'
+    compile 'com.dell.isg.smi:commons-model:1.0.95'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-tomcat'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
@@ -296,12 +293,12 @@ bintray {
     publish = true
     override = false
     pkg {
-		repo = 'smi-service-dell-server-inventory'
+		repo = "${bintrayRepo}"
 		name = apiVersion
-		userOrg = 'rackhd-smi'
+		userOrg = "${bintrayUserOrg}"
 		desc = 'Swagger API for inventory service.'
 		licenses = ['Apache-2.0']
-		vcsUrl = 'https://rackhd-smi.bintray.com/smi-service-dell-server-inventory'
+		vcsUrl = "${bintrayVcsUrl}"
 		publicDownloadNumbers = true
 		version {
 			name = apiVersion
@@ -309,19 +306,4 @@ bintray {
 			vcsTag = 'master'
 		}
 	}
-}
-
-gitPublishPush.dependsOn asciidoctor
-
-gitPublish {
-    repoUri = 'https://github.com/prashanthlgowda/smi-service-dell-server-inventory.git'
-    branch = version
-    contents  {
-        from file(asciidoctor.outputDir.path + '/pdf/api.pdf')
-        into "."
-    }
-    preserve {
-        include '*'
-    }
-    commitMessage = 'Publishing a new api pdf' 
 }

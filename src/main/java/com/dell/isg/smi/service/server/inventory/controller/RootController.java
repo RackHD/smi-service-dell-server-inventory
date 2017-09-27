@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dell.isg.smi.service.server.inventory.Version;
+import com.dell.isg.smi.service.server.inventory.BuildInfo;
 
 @RestController
 @RequestMapping("/")
 public class RootController {
 	
 	@Autowired
-	private Version version;
+	private BuildInfo buildInfo;
 
     @RequestMapping(method = RequestMethod.GET)
     public String version() {
-        return version.toString();
+        return buildInfo.toString();
     }
 
 }

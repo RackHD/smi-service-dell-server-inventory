@@ -8,31 +8,29 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 
-@ConfigurationProperties(prefix = "version")
+@ConfigurationProperties(prefix = "buildInfo")
 @PropertySource({ 
-	  "classpath:version.properties"
+	  "classpath:buildInfo.properties"
 	})
 @Component
-public class Version {
+public class BuildInfo {
 
-	public Version() {
+	public BuildInfo() {
 		super();
 	}
 	
-	private String major;
+	private String version;
 	
 	private String tag;
 	
-	private String build;
-	
 	private String date;
 
-	public String getMajor() {
-		return major;
+	public String getVersion() {
+		return version;
 	}
 
-	public void setMajor(String major) {
-		this.major = major;
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	public String getTag() {
@@ -41,14 +39,6 @@ public class Version {
 
 	public void setTag(String tag) {
 		this.tag = tag;
-	}
-
-	public String getBuild() {
-		return build;
-	}
-
-	public void setBuild(String build) {
-		this.build = build;
 	}
 
 	public String getDate() {
@@ -61,7 +51,7 @@ public class Version {
 
 	@Override
 	public String toString() {
-		return "Release Version [Version=" + major + ", Tag=" + tag + ", Build=" + build + ", Date=" + date + "]";
+		return "Release Version [Version=" + version + ", Tag=" + tag + ", Date=" + date + "]";
 	}
 	
 
