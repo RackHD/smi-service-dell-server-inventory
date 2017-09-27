@@ -4,8 +4,15 @@
 package com.dell.isg.smi.service.server.inventory;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
 
 @ConfigurationProperties(prefix = "version")
+@PropertySource({ 
+	  "classpath:version.properties"
+	})
+@Component
 public class Version {
 
 	public Version() {
@@ -54,7 +61,7 @@ public class Version {
 
 	@Override
 	public String toString() {
-		return "API Version [Version=" + major + ", Tag=" + tag + ", Build=" + build + ", Date=" + date + "]";
+		return "Release Version [Version=" + major + ", Tag=" + tag + ", Build=" + build + ", Date=" + date + "]";
 	}
 	
 

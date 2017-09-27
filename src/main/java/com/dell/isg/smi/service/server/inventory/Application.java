@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.AbstractProtocol;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -18,7 +19,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -41,15 +41,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableDiscoveryClient
 @EnableAsync
 @ComponentScan("com.dell.isg.smi")
-@PropertySource({ 
-	  "classpath:version.properties"
-	})
 public class Application extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
+	@Autowired
+	private Version version;
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -71,12 +70,6 @@ public class Application extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
-    
-    @Bean
-    public Version versionConfig() {
-        return new Version();
-    }
-
 
     @Bean
     public Docket newsApi() {
@@ -84,7 +77,7 @@ public class Application extends WebMvcConfigurerAdapter {
     }
     
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Server Inventory").description("Service for getting server inventory data via wsman.").termsOfServiceUrl("http://rackhd.readthedocs.io").license("Apache 2.0").licenseUrl("https://github.com/RackHD/smi-service-dell-server-inventory/blob/master/LICENSE").version(versionConfig().toString()).build();
+        return new ApiInfoBuilder().title("Server Inventory").description("Service for getting server inventory data via wsman.").termsOfServiceUrl("http://rackhd.readthedocs.io").license("Apache 2.0").licenseUrl("https://github.com/RackHD/smi-service-dell-server-inventory/blob/master/LICENSE").version(version.toString()).build();
     }
 
 
