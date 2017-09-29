@@ -1,4 +1,4 @@
-WSMAN Response Schema
+WSMan Response Schema
 ---------------------
 
 BIOS
