@@ -1,5 +1,5 @@
 include::{generated}/V1.0/overview.adoc[]
-include::readme.adoc[]
+include::readme-v1.adoc[]
 include::{generated}/V1.0/paths.adoc[]
 include::{generated}/V1.0/definitions.adoc[]
 include::misc.adoc[]

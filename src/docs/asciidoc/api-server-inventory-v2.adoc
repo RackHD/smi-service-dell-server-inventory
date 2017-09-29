@@ -1,5 +1,5 @@
 include::{generated}/V2.0/overview.adoc[]
-include::readme.adoc[]
+include::readme-v2.adoc[]
 include::{generated}/V2.0/paths.adoc[]
 include::{generated}/V2.0/definitions.adoc[]
 include::examples-v2.adoc[]
