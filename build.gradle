@@ -49,7 +49,7 @@ buildscript {
 		springVersion = '4.3.6.RELEASE'
     	springBootVersion = '1.5.1.RELEASE'
     	springCloudVersion = 'Camden.SR5'
-    	generatedAsciidoc = file("${buildDir}/docs/asciidoc/generated")
+    	generatedAsciidoc = file("${buildDir}/docs/apidocs/asciidoc/generated")
 	}
    repositories {
         mavenLocal()
@@ -296,7 +296,7 @@ bintray {
 		repo = "${bintrayRepo}"
 		name = apiVersion
 		userOrg = "${bintrayUserOrg}"
-		desc = 'Swagger API for inventory service.'
+		desc = 'Swagger API for Server Inventory Service.'
 		licenses = ['Apache-2.0']
 		vcsUrl = "${bintrayVcsUrl}"
 		publicDownloadNumbers = true
