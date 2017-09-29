@@ -67,13 +67,13 @@ public class Application extends WebMvcConfigurerAdapter {
 
     @Bean
     public Docket newsApiV1() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory-v1.0").apiInfo(new ApiInfoBuilder().title("Service Server Inventory v1.0").version(buildInfo.toString()).build()).select().paths(regex("/api/1.0.*")).build();
+        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory-v1.0").apiInfo(new ApiInfoBuilder().title("SMI Micro-service :  Server Inventory v1.0").version(buildInfo.toString()).build()).select().paths(regex("/api/1.0.*")).build();
     }
     
     @Bean
     public Docket newsApiV2() {
     	buildInfo.setApiVersion("2.0");
-        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory-v2.0").apiInfo(new ApiInfoBuilder().title("Service Server Inventory v2.0").version(buildInfo.toString()).build()).select().paths(regex("/api/2.0.*")).build();
+        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory-v2.0").apiInfo(new ApiInfoBuilder().title("SMI Micro-service :  Server Inventory v2.0").version(buildInfo.toString()).build()).select().paths(regex("/api/2.0.*")).build();
     }
     
 }
