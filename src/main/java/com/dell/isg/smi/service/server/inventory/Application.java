@@ -7,6 +7,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -20,8 +21,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.dell.isg.smi.service.server.inventory.BuildInfo;
+
+
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -38,6 +41,8 @@ public class Application extends WebMvcConfigurerAdapter {
         SpringApplication.run(Application.class, args);
     }
 
+	@Autowired
+	private BuildInfo buildInfo;
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -60,14 +65,15 @@ public class Application extends WebMvcConfigurerAdapter {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
-
     @Bean
-    public Docket newsApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory").apiInfo(apiInfo()).select().paths(regex("/api.*")).build();
+    public Docket newsApiV1() {
+        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory-v1.0").apiInfo(new ApiInfoBuilder().title("SMI Micro-service :  Server Inventory v1.0").version(buildInfo.toString()).build()).select().paths(regex("/api/1.0.*")).build();
     }
-
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("SMI Micro-service : Server Inventory").description("Micro-service for getting server inventory data via wsman.").termsOfServiceUrl("http://www.dell.com/smi/server/inventory").license("Dell SMI License Version 1.0").licenseUrl("www.dell.com/smi").version("1.0 dev").build();
+    
+    @Bean
+    public Docket newsApiV2() {
+    	buildInfo.setApiVersion("2.0");
+        return new Docket(DocumentationType.SWAGGER_2).groupName("serverInventory-v2.0").apiInfo(new ApiInfoBuilder().title("SMI Micro-service :  Server Inventory v2.0").version(buildInfo.toString()).build()).select().paths(regex("/api/2.0.*")).build();
     }
+    
 }
