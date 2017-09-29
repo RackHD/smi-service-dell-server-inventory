@@ -19,6 +19,8 @@ public class BuildInfo {
 		super();
 	}
 	
+	private String apiVersion = "1.0";
+	
 	private String version;
 	
 	private String tag;
@@ -49,14 +51,26 @@ public class BuildInfo {
 		this.date = date;
 	}
 
+	public String getApiVersion() {
+		return apiVersion;
+	}
+
+	public void setApiVersion(String apiVersion) {
+		this.apiVersion = apiVersion;
+	}
+
 	@Override
 	public String toString() {
-		return "Release Version [Version=" + version + ", Tag=" + tag + ", Date=" + date + "]";
+		StringBuffer versionStr = new StringBuffer();
+		versionStr.append("API Version :" +apiVersion+"\r\n");
+		versionStr.append("Release Version :" +version+"\r\n");
+		versionStr.append("Release Tag :" +tag+"\r\n");
+		versionStr.append("Release Date :" +date+"\r\n");
+		
+		return versionStr.toString();
 	}
 	
-
+}
 	
 
 
-
-}

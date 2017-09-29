@@ -21,6 +21,7 @@ import com.dell.isg.smi.commons.model.common.Credential;
 import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
 import com.dell.isg.smi.service.server.exception.BadRequestException;
 import com.dell.isg.smi.service.server.inventory.manager.ILogManager;
+import com.dell.isg.smi.service.server.inventory.mock.lclog.LCLogResponse;
 import com.dell.isg.smi.service.server.inventory.utilities.ValidationUtilities;
 
 import io.swagger.annotations.ApiOperation;
@@ -38,8 +39,8 @@ public class ServerLogController {
 
 
     @RequestMapping(value = "/get/{type}", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/get/{type}", nickname = "getLogs", notes = "This operation allow user to collect sel logs throu wsman.", response = Object.class, responseContainer = "List")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class, responseContainer = "List"), @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiOperation(value = "/get/{type}", nickname = "getLogs", notes = "This operation allow user to collect SEL or LC logs throu wsman. Type value LC or SEL.", response = Object.class, responseContainer = "List")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success - Response varies based on passed type.", response = LCLogResponse.class, responseContainer = "List"), @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
     public List<Object> collectSelLogs(@RequestBody Credential payload, @PathVariable("type") String type) {
         ValidationUtilities.validateRequestPayload(payload);
         List<Object> result = new ArrayList<Object>();

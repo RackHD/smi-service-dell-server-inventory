@@ -6,6 +6,7 @@ package com.dell.isg.smi.service.server.inventory;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -32,7 +33,9 @@ import springfox.documentation.staticdocs.Swagger2MarkupResultHandler;
 @SpringBootTest
 public class Swagger2MarkupTest {
 
-	private static final String API_URI = "/v2/api-docs?group=serverInventory";
+	private static final String API_URI_V1 = "/v2/api-docs?group=serverInventory-v1.0";
+	
+	private static final String API_URI_V2 = "/v2/api-docs?group=serverInventory-v2.0";
 
     @Inject
     private WebApplicationContext context;
@@ -45,12 +48,24 @@ public class Swagger2MarkupTest {
     }
 
     @Test
-    public void convertSwaggerToAsciiDoc() throws Exception {
-    	String outputDir = System.getProperty("staticdocs.outputDir");
+    public void convertSwaggerToAsciiDocV1() throws Exception {
+    	String outputDir = System.getProperty("staticdocs.outputDir")+File.separatorChar+"V1.0";
     	//String outputDir = "build/asciidoc/generated";
         Swagger2MarkupResultHandler.Builder builder = Swagger2MarkupResultHandler
             .outputDirectory(outputDir);
-        mockMvc.perform(get(API_URI).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(API_URI_V1).accept(MediaType.APPLICATION_JSON))
+            .andDo(builder.build())
+            .andExpect(status().isOk());
+
+    }
+    
+    @Test
+    public void convertSwaggerToAsciiDocV2() throws Exception {
+    	String outputDir = System.getProperty("staticdocs.outputDir")+File.separatorChar+"V2.0";
+    	//String outputDir = "build/asciidoc/generated";
+        Swagger2MarkupResultHandler.Builder builder = Swagger2MarkupResultHandler
+            .outputDirectory(outputDir);
+        mockMvc.perform(get(API_URI_V2).accept(MediaType.APPLICATION_JSON))
             .andDo(builder.build())
             .andExpect(status().isOk());
 

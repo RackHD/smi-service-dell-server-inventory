@@ -265,7 +265,7 @@ task dependencySourcesZip(type: Zip, dependsOn: 'buildSourcePathsArray' ) {
 asciidoctor {
     dependsOn test
     sources {
-        include 'api.adoc'
+        include 'api-*.adoc'
     }
     backends = ['pdf']
     attributes = [
@@ -286,7 +286,7 @@ bintray {
 	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
 	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
     filesSpec {
-       from file(asciidoctor.outputDir.path + '/pdf/api.pdf')
+       from file(asciidoctor.outputDir.path + '/pdf')
        into '.'
     }
     dryRun = false

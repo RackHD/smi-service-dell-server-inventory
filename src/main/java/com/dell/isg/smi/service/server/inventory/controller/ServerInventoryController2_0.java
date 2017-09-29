@@ -27,6 +27,13 @@ import com.dell.isg.smi.commons.utilities.CustomRecursiveToStringStyle;
 import com.dell.isg.smi.service.server.exception.BadRequestException;
 import com.dell.isg.smi.service.server.exception.EnumErrorCode;
 import com.dell.isg.smi.service.server.inventory.manager.IInventoryManager2_0;
+import com.dell.isg.smi.service.server.inventory.mock.bios.BiosResponse;
+import com.dell.isg.smi.service.server.inventory.mock.boot.BootResponse;
+import com.dell.isg.smi.service.server.inventory.mock.hardware.HardwareResponse;
+import com.dell.isg.smi.service.server.inventory.mock.manager.ManagerResponse;
+import com.dell.isg.smi.service.server.inventory.mock.nics.NicsResponse;
+import com.dell.isg.smi.service.server.inventory.mock.software.SoftwareResponse;
+import com.dell.isg.smi.service.server.inventory.mock.summary.SummaryResponse;
 import com.dell.isg.smi.service.server.inventory.utilities.ValidationUtilities;
 
 import io.swagger.annotations.ApiOperation;
@@ -45,9 +52,7 @@ public class ServerInventoryController2_0 {
 
     @RequestMapping(value = "/hardware", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "/hardware", nickname = "hardware", notes = "This operation allow user to get complete server hardware inventory throu wsman.", response = Object.class)
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = HardwareResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object inventory(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for hardware inventory : ", payload.getAddress(), payload.getUserName());
@@ -68,10 +73,8 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/summary", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/summary", nickname = "system", notes = "This operation allow user to get partial server information throu wsman.", response = Object.class)
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiOperation(value = "/summary", nickname = "summary", notes = "This operation allow user to get server system information (System View) throu wsman.", response = Object.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = SummaryResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object summary(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for system inventory : ", payload.getAddress(), payload.getUserName());
@@ -94,9 +97,7 @@ public class ServerInventoryController2_0 {
 
     @RequestMapping(value = "/software", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "/software", nickname = "software", notes = "This operation allow user to get complete server software inventory throu wsman.", response = Object.class, responseContainer = "List")
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = SoftwareResponse.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object software(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for software inventory : ", payload.getAddress(), payload.getUserName());
@@ -118,9 +119,7 @@ public class ServerInventoryController2_0 {
 
     @RequestMapping(value = "/nics", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
     @ApiOperation(value = "/nics", nickname = "nics", notes = "This operation allow user to get complete server nics information throu wsman.", response = Object.class, responseContainer = "List")
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "Credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = NicsResponse.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object nics(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for NIC inventory : ", payload.getAddress(), payload.getUserName());
@@ -128,7 +127,6 @@ public class ServerInventoryController2_0 {
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             Object nics = inventoryManagerImpl.collectNics(wsmanCredentials);
-//            result = TranformerUtil.transformHwNic(nics);
             result = nics;
         } catch (Exception e) {
             logger.error("Exception occured in inventory2 : ", e);
@@ -143,10 +141,8 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/bios", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/bios", nickname = "bios", notes = "This operation allow user to collects the bios throu wsman.", response = Object.class)
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "Credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiOperation(value = "/bios", nickname = "bios", notes = "This operation allow user to collects the bios details from server throu wsman.", response = Object.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = BiosResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object collectConfig(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for bios data : ", payload.getAddress(), payload.getUserName());
@@ -167,10 +163,8 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/boot", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/boot", nickname = "boot", notes = "This operation allow user to collect boot order details throu wsman.", response = Object.class)
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "Credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiOperation(value = "/boot", nickname = "boot", notes = "This operation allow user to collect boot order details from the server throu wsman.", response = Object.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = BootResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object collectBootOrderDetails(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for boot order details : ", payload.getAddress(), payload.getUserName());
@@ -189,13 +183,7 @@ public class ServerInventoryController2_0 {
         return result;
     }
 
-
-    @RequestMapping(value = "/ips", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/ips", nickname = "ips", notes = "This operation allow user to collect server software identity throu wsman.", response = InventoryInformation.class, responseContainer = "List")
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "deviceIps", value = "DevicesIpsRequest", required = true, dataType = "DevicesIpsRequest.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = InventoryInformation.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
-    public List<InventoryInformation> inventory(@RequestBody DevicesIpsRequest deviceIps) {
+   public List<InventoryInformation> inventory(@RequestBody DevicesIpsRequest deviceIps) {
         logger.trace("Ips submitted for inventory : ", ReflectionToStringBuilder.toString(deviceIps, new CustomRecursiveToStringStyle(99)));
         List<InventoryInformation> response = null;
         if (deviceIps == null) {
@@ -218,10 +206,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/callback", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/callback", nickname = "callback", notes = "This operation allow user to collect all the server inventory throu wsman. It uses callback uri to respond once the inventory is done. Type could be : hardware|nics|software|boot|bios|summary|sellog|lclog", response = ResponseString.class)
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "inventoryCallbackRequest", value = "InventoryCallbackRequest", required = true, dataType = "InventoryCallbackRequest.class", paramType = "Body",
-    // defaultValue = "no default") })
+    @ApiOperation(value = "/callback", nickname = "callback", notes = "This operation allow user to collect all the server inventory throu wsman. It uses callback uri to respond once the inventory is collected. Type could be : hardware :nics :software : manager:boot :bios: summary: sellog: lclog", response = ResponseString.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseString.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public ResponseString inventoryCallback(@RequestBody InventoryCallbackRequest inventoryCallbackRequest) {
         ValidationUtilities.validateRequestPayload(inventoryCallbackRequest);
@@ -237,20 +222,15 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/manager", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete server hardware inventory throu wsman.", response = Object.class)
-    // @ApiImplicitParams({
-    // @ApiImplicitParam(name = "credential", value = "Credential", required = true, dataType = "Credential.class", paramType = "Body", defaultValue = "no default") })
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete DCIM_IDRACCardView, DCIM_iDRACCardString and DCIM_iDRACCardEnumeration throu wsman.", response = Object.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ManagerResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object getIdracDetails(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
         logger.trace("Credential for hardware inventory : ", payload.getAddress(), payload.getUserName());
         Object manager = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
-//            List<IDRACCardStringView> result = inventoryManagerImpl.getIdracStringView(wsmanCredentials);
             manager = inventoryManagerImpl.collectIdracDetails(wsmanCredentials);
-            //manager = new Manager();
-            //manager.setStringViewList(TranformerUtil.transformIdracString(result));
         } catch (Exception e) {
             logger.error("Exception occured in inventory2 : ", e);
             BadRequestException badRequestException = new BadRequestException();
@@ -263,8 +243,8 @@ public class ServerInventoryController2_0 {
     }
 
     @RequestMapping(value = "/dcim/{type}", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/dcim/{type}", nickname = "getLogs", notes = "This operation allow user to collect sel logs throu wsman.", response = Object.class, responseContainer = "List")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class, responseContainer = "List"), @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+    @ApiOperation(value = "/dcim/{type}", nickname = "dcim", notes = "This operation allow user to collect any dcim data based on the passed type. Type value - DCIM_SystemView:DCIM_ControllerView:DCIM_VirtualDiskView:DCIM_PhysicalDiskView ..etc", response = Object.class, responseContainer = "List")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success - Response schema would be based on type passed.", response = Object.class, responseContainer = "List"), @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
     public Object collectSelLogs(@RequestBody Credential payload, @PathVariable("type") String type) {
         ValidationUtilities.validateRequestPayload(payload);
         Object result = null;

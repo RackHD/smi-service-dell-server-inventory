@@ -1,0 +1,912 @@
+WSMAN Response Schema
+---------------------
+
+BIOS
+~~~~
+-----------------
+{
+  "DCIM_BIOSEnumeration": [
+    {
+      "DisplayOrder": "310",
+      "InstanceID": "BIOS.Setup.1-1:MemTest",
+      "PendingValue": "",
+      "PossibleValuesDescription": [
+        "Enabled",
+        "Disabled"
+      ],
+      "CurrentValue": "Disabled",
+      "FQDD": "BIOS.Setup.1-1",
+      "GroupDisplayName": "Memory Settings",
+      "PossibleValues": [
+        "Enabled",
+        "Disabled"
+      ],
+      "Dependency": "",
+      "GroupID": "MemSettings",
+      "AttributeDisplayName": "System Memory Testing",
+      "AttributeName": "MemTest",
+      "IsReadOnly": "false"
+    }
+  ],
+  "DCIM_BIOSString": [
+    {
+      "DisplayOrder": "201",
+      "InstanceID": "BIOS.Setup.1-1:SystemModelName",
+      "PendingValue": "",
+      "CurrentValue": "PowerEdge FC630",
+      "MinLength": "0",
+      "FQDD": "BIOS.Setup.1-1",
+      "GroupDisplayName": "System Information",
+      "Dependency": "",
+      "MaxLength": "40",
+      "GroupID": "SysInformation",
+      "AttributeDisplayName": "System Model Name",
+      "ValueExpression": "",
+      "AttributeName": "SystemModelName",
+      "IsReadOnly": "true"
+    }
+  ]
+}
+-----------------
+
+BOOT
+~~~~
+    
+-----------------
+{
+  "DCIM_BootConfigSetting": [
+    {
+      "IsCurrent": "1",
+      "IsDefault": "0",
+      "InstanceID": "IPL",
+      "ElementName": "BootSeq",
+      "IsNext": "1"
+    }
+  ],
+  "DCIM_BootSourceSetting": [
+    {
+      "CurrentEnabledStatus": "1",
+      "PendingAssignedSequence": "0",
+      "BIOSBootString": "Unknown Device: USB Floppy BootSeq",
+      "PendingEnabledStatus": "1",
+      "InstanceID": "IPL:BIOS.Setup.1-1#BootSeq#Unknown.Unknown.1-1#65115bd4b8ed2b80329381fc705cbc89",
+      "ElementName": "Unknown Device: USB Floppy BootSeq",
+      "FailThroughSupported": "1",
+      "CurrentAssignedSequence": "0",
+      "BootString": "Unknown Device: USB Floppy BootSeq",
+      "BootSourceType": "IPL"
+    }
+  ],
+  "DCIM_BIOSEnumeration": [
+    {
+      "DisplayOrder": "500",
+      "InstanceID": "BIOS.Setup.1-1:EmbSata",
+      "PendingValue": "",
+      "PossibleValuesDescription": [
+        "ATA Mode",
+        "AHCI Mode",
+        "RAID Mode",
+        "Off"
+      ],
+      "CurrentValue": "AhciMode",
+      "FQDD": "BIOS.Setup.1-1",
+      "GroupDisplayName": "SATA Settings",
+      "PossibleValues": [
+        "AtaMode",
+        "AhciMode",
+        "RaidMode",
+        "Off"
+      ],
+      "Dependency": "",
+      "GroupID": "SataSettings",
+      "AttributeDisplayName": "Embedded SATA",
+      "AttributeName": "EmbSata",
+      "IsReadOnly": "false"
+    }
+  ]
+}
+-----------------
+
+
+HARDWARE
+~~~~~~~
+    
+-----------------
+{
+  "DCIM_SystemView": {
+    "DeviceDescription": "System",
+    "EstimatedExhaustTemperature": "255",
+    "InstanceID": "System.Embedded.1",
+    "PSRollupStatus": "1",
+    "BoardPartNumber": "0JXJPTA00",
+    "MemoryOperationMode": "OptimizerMode",
+    "SysMemLocation": "3",
+    "SystemID": "1563",
+    "ChassisSystemHeight": "2",
+    "TempRollupStatus": "1",
+    "BIOSVersionString": "2.4.2",
+    "LastUpdateTime": "Tue Sep 12 17:45:18 CDT 2017",
+    "PlatformGUID": "3234444f-c0b5-3380-4e10-00564c4c4544",
+    "SysMemTotalSize": "98304",
+    "Manufacturer": "Dell Inc.",
+    "BIOSReleaseDate": "01/09/2017",
+    "UUID": "4c4c4544-0056-4e10-8033-b5c04f443432",
+    "HostName": "",
+    "EstimatedSystemAirflow": "255",
+    "LifecycleControllerVersion": "2.41.40.40",
+    "PopulatedPCIeSlots": "2",
+    "PopulatedCPUSockets": "2",
+    "IntrusionRollupStatus": "",
+    "StorageRollupStatus": "1",
+    "BoardSerialNumber": "CN7016352P00A6",
+    "FQDD": "System.Embedded.1",
+    "LicensingRollupStatus": "1",
+    "PowerCap": "423",
+    "PrimaryStatus": "1",
+    "AssetTag": "",
+    "SysMemPrimaryStatus": "1",
+    "PopulatedDIMMSlots": "6",
+    "CurrentRollupStatus": "1",
+    "BaseBoardChassisSlot": "Slot 01",
+    "MemoryRollupStatus": "1",
+    "ChassisServiceTag": "5VN2D42",
+    "BatteryRollupStatus": "1",
+    "ExpressServiceCode": "12797151266",
+    "ServiceTag": "5VN3D42",
+    "SystemGeneration": "13G Modular",
+    "TempStatisticsRollupStatus": "1",
+    "RollupStatus": "1",
+    "IDSDMRollupStatus": "",
+    "SysMemFailOverState": "NotInUse",
+    "CMCIP": "100.68.123.36",
+    "NodeID": "5VN3D42",
+    "SysMemMaxCapacitySize": "3145728",
+    "MaxPCIeSlots": "3",
+    "MaxDIMMSlots": "24",
+    "PowerState": "2",
+    "SDCardRollupStatus": "",
+    "ServerAllocation": "446",
+    "ChassisName": "CMC-5VN2D42",
+    "FanRollupStatus": "1",
+    "CPURollupStatus": "1",
+    "smbiosGUID": "44454c4c-5600-104e-8033-b5c04f443432",
+    "PowerCapEnabledState": "3",
+    "CPLDVersion": "1.0.5",
+    "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+    "Model": "PowerEdge FC630",
+    "BladeGeometry": "5",
+    "SystemRevision": "0",
+    "SysMemErrorMethodology": "6",
+    "MaxCPUSockets": "2",
+    "ChassisModel": "PowerEdge FX2s",
+    "VoltRollupStatus": "1"
+  },
+  "DCIM_Memoryview": [
+    {
+      "DeviceDescription": "DIMM A1",
+      "Speed": "2133",
+      "PartNumber": "HMA42GR7MFR4N-TF",
+      "InstanceID": "DIMM.Socket.A1",
+      "ManufactureDate": "Mon Apr 06 07:00:00 2015 UTC",
+      "Size": "16384",
+      "FQDD": "DIMM.Socket.A1",
+      "Rank": "2",
+      "PrimaryStatus": "1",
+      "BankLabel": "A",
+      "CurrentOperatingSpeed": "1600",
+      "SerialNumber": "23B70828",
+      "LastUpdateTime": "Wed May 06 23:54:13 CDT 2015",
+      "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+      "Manufacturer": "Hynix Semiconductor",
+      "Model": "DDR4 DIMM",
+      "MemoryType": "26"
+    }
+  ],
+  "DCIM_Powersupplyview": [
+    {
+      "DeviceDescription": "Power Supply 1",
+      "RedundancyStatus": "0",
+      "PartNumber": "095HR5A01",
+      "InstanceID": "PSU.Slot.1",
+      "TotalOutputPower": "1600",
+      "DetailedState": "Presence Detected",
+      "FQDD": "PSU.Slot.1",
+      "PrimaryStatus": "1",
+      "FirmwareVersion": "",
+      "RedMinNumberNeeded": "1",
+      "Range1MaxInputPower": "1920",
+      "RedTypeOfSet": "2",
+      "Type": "0",
+      "InputVoltage": "0",
+      "SerialNumber": "CN1797251S02J5",
+      "LastUpdateTime": "Wed Sep 27 23:53:44 CDT 2017",
+      "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+      "Manufacturer": "Dell",
+      "Model": "PWR SPLY,1600W,RDNT,DELTA     ",
+      "PMBusMonitoring": "1"
+    }
+  ],
+  "DCIM_CPUView": [
+    {
+      "Cache2SRAMType": "2",
+      "Cache2WritePolicy": "1",
+      "DeviceDescription": "CPU 1",
+      "InstanceID": "CPU.Socket.1",
+      "Cache3ErrorMethodology": "5",
+      "LastUpdateTime": "Fri Jan 15 16:26:06 CST 2016",
+      "VirtualizationTechnologyEnabled": "1",
+      "Manufacturer": "Intel",
+      "Cache1Type": "5",
+      "Cache3Size": "15360",
+      "VirtualizationTechnologyCapable": "1",
+      "Cache3Level": "2",
+      "NumberOfProcessorCores": "6",
+      "FQDD": "CPU.Socket.1",
+      "Cache2Location": "0",
+      "PrimaryStatus": "1",
+      "NumberOfEnabledThreads": "6",
+      "Cache1Associativity": "7",
+      "HyperThreadingEnabled": "0",
+      "Cache2Associativity": "7",
+      "Cache2Size": "1536",
+      "MaxClockSpeed": "4000",
+      "CPUFamily": "B3",
+      "Cache3Associativity": "14",
+      "TurboModeCapable": "0",
+      "Cache1Level": "0",
+      "Cache1SRAMType": "2",
+      "Cache1Size": "384",
+      "CurrentClockSpeed": "1600",
+      "ExecuteDisabledCapable": "1",
+      "ExecuteDisabledEnabled": "1",
+      "Cache3SRAMType": "2",
+      "Cache2ErrorMethodology": "5",
+      "Cache3WritePolicy": "1",
+      "TurboModeEnabled": "0",
+      "Voltage": "1.3",
+      "Cache2PrimaryStatus": "1",
+      "Cache3PrimaryStatus": "1",
+      "Cache1PrimaryStatus": "1",
+      "Cache1Location": "0",
+      "Cache1WritePolicy": "1",
+      "Cache2Type": "5",
+      "NumberOfEnabledCores": "6",
+      "CPUStatus": "1",
+      "Cache2Level": "1",
+      "Cache3Location": "0",
+      "Characteristics": "4",
+      "Cache3Type": "5",
+      "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+      "Model": "Intel(R) Xeon(R) CPU E5-2603 v3 @ 1.60GHz",
+      "Cache1ErrorMethodology": "4",
+      "HyperThreadingCapable": "0",
+      "ExternalBusClockSpeed": "6400"
+    }
+  ],
+  "DCIM_VFlashView": {
+    "DeviceDescription": "vFlash Card",
+    "InstanceID": "Disk.vFlashCard.1",
+    "ComponentName": "No SD Card",
+    "FQDD": "Disk.vFlashCard.1"
+  },
+  "DCIM_FanView": [
+    {
+      "BaseUnits": "19",
+      "DeviceDescription": "Fan 1A",
+      "RedundancyStatus": "6",
+      "RateUnits": "0",
+      "InstanceID": "Fan.Embedded.1A",
+      "ActiveCooling": "true",
+      "PWM": "255",
+      "VariableSpeed": "true",
+      "FQDD": "Fan.Embedded.1A",
+      "PrimaryStatus": "1",
+      "LastUpdateTime": "Wed Sep 27 23:53:46 CDT 2017",
+      "UnitModifier": "0",
+      "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+      "CurrentReading": "3600"
+    }
+  ],
+  "DCIM_EnclosureView": {
+    "Connector": "0",
+    "DeviceDescription": "Backplane 1 on Connector 0 of Integrated RAID Controller 1",
+    "ProductName": "BP13G+ 0:1",
+    "InstanceID": "Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "ServiceTag": "",
+    "SlotCount": "2",
+    "FQDD": "Enclosure.Internal.0-1:RAID.Integrated.1-1",
+    "TempProbeCount": "0",
+    "RollupStatus": "1",
+    "PrimaryStatus": "1",
+    "PSUCount": "0",
+    "EMMCount": "0",
+    "AssetTag": "",
+    "FanCount": "0",
+    "LastUpdateTime": "Wed Sep 13 15:07:10 CDT 2017",
+    "Version": "2.25",
+    "State": "1",
+    "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+    "WiredOrder": "1"
+  },
+  "DCIM_VirtualDiskView": "",
+  "DCIM_Sensor": [
+    {
+      "SensorType": "3",
+      "OtherSensorTypeDescription": "",
+      "DeviceID": "iDRAC.Embedded.1#CPU1VCOREPG",
+      "SystemCreationClassName": "DCIM_ComputerSystem",
+      "OperationalStatus": "2",
+      "PrimaryStatus": "1",
+      "RequestedState": "12",
+      "PossibleStates": [
+        "Unknown",
+        "Good",
+        "Non Critical",
+        "Bad",
+        "Non Recoverable"
+      ],
+      "ElementName": "CPU1 VCORE PG",
+      "CreationClassName": "DCIM_Sensor",
+      "CurrentState": "Good",
+      "SystemName": "system",
+      "EnabledState": "2",
+      "HealthState": "5"
+    }
+  ],
+  "DCIM_NumericSensor": [
+    {
+      "LowerThresholdNonCritical": "30",
+      "RateUnits": "0",
+      "LowerThresholdCritical": "-70",
+      "SystemCreationClassName": "DCIM_ComputerSystem",
+      "EnabledDefault": "2",
+      "RequestedState": "12",
+      "ValueFormulation": "2",
+      "ElementName": "System Board Inlet Temp",
+      "CurrentState": "Normal",
+      "UnitModifier": "-1",
+      "CurrentReading": "140",
+      "SystemName": "system",
+      "EnabledState": "2",
+      "BaseUnits": "2",
+      "TransitioningToState": "12",
+      "SensorType": "2",
+      "OtherSensorTypeDescription": "",
+      "DeviceID": "iDRAC.Embedded.1#SystemBoardInletTemp",
+      "UpperThresholdCritical": "470",
+      "OperationalStatus": "2",
+      "PrimaryStatus": "1",
+      "PossibleStates": [
+        "Unknown",
+        "Fatal",
+        "Normal",
+        "Upper Fatal",
+        "Upper Critical",
+        "Upper Non-Critical",
+        "Lower Non-Critical",
+        "Lower Critical"
+      ],
+      "SettableThresholds": [
+        "0",
+        "1"
+      ],
+      "CreationClassName": "DCIM_NumericSensor",
+      "SupportedThresholds": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "HealthState": "5",
+      "UpperThresholdNonCritical": "420"
+    }
+  ],
+  "DCIM_SystemString": [
+    {
+      "DisplayOrder": "1410",
+      "InstanceID": "System.Embedded.1#ServerPwr.1#ActivePolicyName",
+      "PendingValue": "",
+      "CurrentValue": "iDRAC",
+      "MinLength": "0",
+      "FQDD": "System.Embedded.1",
+      "GroupDisplayName": "Server Power",
+      "Dependency": "",
+      "MaxLength": "128",
+      "GroupID": "ServerPwr.1",
+      "DefaultValue": "",
+      "AttributeDisplayName": "Active Power Cap Policy Name",
+      "AttributeName": "ActivePolicyName",
+      "IsReadOnly": "true"
+    }
+  ],
+  "DCIM_ControllerView": [
+    {
+      "MaxAvailablePCILinkSpeed": "Generation 3",
+      "DeviceDescription": "Integrated RAID Controller 1",
+      "ProductName": "PERC H330 Mini",
+      "SlicedVDCapability": "1",
+      "InstanceID": "RAID.Integrated.1-1",
+      "RealtimeCapability": "1",
+      "KeyID": "",
+      "SupportEnhancedAutoForeignImport": "1",
+      "RollupStatus": "1",
+      "Function": "0",
+      "LastUpdateTime": "Wed Sep 13 15:07:10 CDT 2017",
+      "SupportRAID10UnevenSpans": "1",
+      "SecurityStatus": "0",
+      "DeviceCardSlotLength": "2",
+      "PCISubDeviceID": "1F4C",
+      "MaxPossiblePCILinkSpeed": "Generation 3",
+      "Bus": "2",
+      "DeviceCardDataBusWidth": "Unknown",
+      "PCIVendorID": "1000",
+      "SupportControllerBootMode": "1",
+      "PCISubVendorID": "1028",
+      "DeviceCardManufacturer": "DELL",
+      "EncryptionCapability": "0",
+      "Device": "0",
+      "PCISlot": "0",
+      "FQDD": "RAID.Integrated.1-1",
+      "PatrolReadState": "1",
+      "PCIDeviceID": "5F",
+      "PrimaryStatus": "1",
+      "SASAddress": "544A842016E2E600",
+      "CacheSizeInMB": "0",
+      "DriverVersion": "",
+      "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+      "DeviceCardSlotType": "Unknown",
+      "ControllerFirmwareVersion": "25.5.2.0001",
+      "CachecadeCapability": "0",
+      "T10PICapability": "1",
+      "EncryptionMode": "0"
+    }
+  ],
+  "DCIM_ControllerBatteryView": "",
+  "DCIM_RAIDEnumeration": [
+    {
+      "InstanceID": "RAID.Integrated.1-1:RAIDSupportedRAIDLevels",
+      "PendingValue": "",
+      "CurrentValue": [
+        "2(RAID-0)",
+        "4(RAID-1)",
+        "64(RAID-5)",
+        "2048(RAID-10)",
+        "8192(RAID-50)"
+      ],
+      "AttributeName": "RAIDSupportedRAIDLevels",
+      "FQDD": "RAID.Integrated.1-1",
+      "PossibleValues": [
+        "2(RAID-0)",
+        "4(RAID-1)",
+        "64(RAID-5)",
+        "2048(RAID-10)",
+        "8192(RAID-50)"
+      ],
+      "IsReadOnly": "true"
+    },
+    {
+      "InstanceID": "RAID.Integrated.1-1:RAIDSupportedInitTypes",
+      "PendingValue": "",
+      "CurrentValue": "Fast",
+      "AttributeName": "RAIDSupportedInitTypes",
+      "FQDD": "RAID.Integrated.1-1",
+      "PossibleValues": "Fast",
+      "IsReadOnly": "true"
+    },
+    {
+      "InstanceID": "Enclosure.Internal.0-1:RAID.Integrated.1-1:BackplaneType",
+      "PendingValue": "",
+      "CurrentValue": "Not Shared",
+      "AttributeName": "BackplaneType",
+      "FQDD": "Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "PossibleValues": [
+        "Not Shared",
+        "Shared"
+      ],
+      "IsReadOnly": "true"
+    }
+  ],
+  "DCIM_RAIDInteger": [
+    {
+      "LowerBound": "0",
+      "InstanceID": "RAID.Integrated.1-1:RAIDmaxSupportedVD",
+      "UpperBound": "0",
+      "PendingValue": "",
+      "CurrentValue": "32",
+      "AttributeName": "RAIDmaxSupportedVD",
+      "FQDD": "RAID.Integrated.1-1",
+      "IsReadOnly": "true"
+    }
+  ]
+}
+-----------------
+
+MANAGER
+~~~~~~~
+    
+-----------------
+{
+  "DCIM_IDRACCardView": {
+    "DeviceDescription": "iDRAC",
+    "LANEnabledState": "1",
+    "InstanceID": "iDRAC.Embedded.1-1#IDRACinfo",
+    "DNSDomainName": "",
+    "GUID": "3234444f-c0b5-3380-4e10-00564c4c4544",
+    "SOLEnabledState": "1",
+    "PermanentMACAddress": "44:a8:42:a7:7f:c0",
+    "FQDD": "iDRAC.Embedded.1-1",
+    "DNSRacName": "idrac-5VN3D42",
+    "URLString": "https://100.68.123.39:443",
+    "FirmwareVersion": "2.41.40.40",
+    "LastUpdateTime": "Wed Sep 27 23:55:30 CDT 2017",
+    "IPMIVersion": "2.0",
+    "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+    "Model": "Enterprise",
+    "ProductDescription": "This system component provides a complete set of remote management functions for Dell PowerEdge servers"
+  },
+  "DCIM_iDRACCardEnumeration": [
+    {
+      "DisplayOrder": "6",
+      "InstanceID": "iDRAC.Embedded.1#Info.1#Type",
+      "PendingValue": "",
+      "CurrentValue": "13G Modular",
+      "FQDD": "iDRAC.Embedded.1",
+      "GroupDisplayName": "RAC Information",
+      "PossibleValues": [
+        "12G/13G",
+        "12G Monolithic",
+        "12G Modular",
+        "13G Monolithic",
+        "13G Modular",
+        "12G DCS",
+        "13G DCS"
+      ],
+      "Dependency": "",
+      "GroupID": "Info.1",
+      "DefaultValue": "12G/13G",
+      "AttributeDisplayName": "iDRAC Type",
+      "AttributeName": "Type",
+      "IsReadOnly": "true"
+    }
+  ],
+  "DCIM_iDRACCardString": [
+    {
+      "DisplayOrder": "1",
+      "InstanceID": "iDRAC.Embedded.1#Info.1#Product",
+      "PendingValue": "",
+      "CurrentValue": "Integrated Dell Remote Access Controller",
+      "MinLength": "0",
+      "FQDD": "iDRAC.Embedded.1",
+      "GroupDisplayName": "RAC Information",
+      "Dependency": "",
+      "MaxLength": "63",
+      "GroupID": "Info.1",
+      "DefaultValue": "",
+      "AttributeDisplayName": "iDRAC Product Information",
+      "AttributeName": "Product",
+      "IsReadOnly": "true"
+    }
+  ]
+}
+-----------------
+
+NICS
+~~~~
+    
+-----------------
+{
+  "DCIM_NICView": [
+    {
+      "DeviceDescription": "Integrated NIC 1 Port 1 Partition 1",
+      "NicMode": "2",
+      "ProductName": "QLogic 577xx/578xx 10 Gb Ethernet BCM57810 - 44:A8:42:A7:7F:C1",
+      "InstanceID": "NIC.Integrated.1-1-1",
+      "MaxBandwidth": "100",
+      "PermanentMACAddress": "54:9F:35:1E:9D:96",
+      "AutoNegotiation": "2",
+      "MinBandwidth": "0",
+      "FunctionNumber": "0",
+      "VirtWWPN": "20:01:44:A8:42:A7:7F:C3",
+      "EFIVersion": "7.15.13",
+      "LastUpdateTime": "Wed Sep 13 13:26:48 CDT 2017",
+      "MediaType": "KR,KX,BACKPLANE",
+      "PCISubDeviceID": "1f5f",
+      "PermanentiSCSIMACAddress": "54:9F:35:1E:9D:97",
+      "DataBusWidth": "0002",
+      "Protocol": "NIC,iSCSI,FCoE",
+      "FCoEWWNN": "54:9f:35:1e:9d:97",
+      "PCIVendorID": "14e4",
+      "DeviceNumber": "0",
+      "PCISubVendorID": "1028",
+      "VendorName": "QLogic",
+      "PermanentFCOEMACAddress": "54:9f:35:1e:9d:97",
+      "iScsiOffloadMode": "3",
+      "CurrentMACAddress": "44:A8:42:A7:7F:C1",
+      "FamilyVersion": "10.01.00",
+      "FQDD": "NIC.Integrated.1-1-1",
+      "PCIDeviceID": "168E",
+      "TransmitFlowControl": "3",
+      "SlotType": "0002",
+      "WWN": "20:00:54:9F:35:1E:9D:97",
+      "FCoEOffloadMode": "3",
+      "BusNumber": "1",
+      "SlotLength": "0002",
+      "LinkDuplex": "1",
+      "ReceiveFlowControl": "3",
+      "WWPN": "20:01:54:9F:35:1E:9D:97",
+      "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+      "VirtWWN": "20:00:44:A8:42:A7:7F:C3",
+      "LinkSpeed": "5",
+      "ControllerBIOSVersion": "7.14.5"
+    }
+  ],
+  "DCIM_NICEnumeration": [
+    {
+      "AttributeDisplayName": "Link Status",
+      "InstanceID": "NIC.Integrated.1-1-1:LinkStatus",
+      "PendingValue": "",
+      "PossibleValuesDescription": [
+        "Disconnected",
+        "Connected"
+      ],
+      "CurrentValue": "Connected",
+      "AttributeName": "LinkStatus",
+      "FQDD": "NIC.Integrated.1-1-1",
+      "GroupDisplayName": "Main Configuration Page",
+      "PossibleValues": [
+        "Disconnected",
+        "Connected"
+      ],
+      "Dependency": "",
+      "IsReadOnly": "true",
+      "GroupID": "VndrConfigPage"
+    },
+    {
+      "AttributeDisplayName": "Boot Retry Count",
+      "InstanceID": "NIC.Integrated.1-1-1:BootRetryCnt",
+      "PendingValue": "",
+      "PossibleValuesDescription": [
+        "No Retry",
+        "1 Retry",
+        "2 Retries",
+        "3 Retries",
+        "4 Retries",
+        "5 Retries",
+        "6 Retries",
+        "Indefinite Retries"
+      ],
+      "CurrentValue": "NoRetry",
+      "AttributeName": "BootRetryCnt",
+      "FQDD": "NIC.Integrated.1-1-1",
+      "GroupDisplayName": "NIC Configuration",
+      "PossibleValues": [
+        "NoRetry",
+        "1Retry",
+        "2Retries",
+        "3Retries",
+        "4Retries",
+        "5Retries",
+        "6Retries",
+        "IndefiniteRetries"
+      ],
+      "Dependency": "",
+      "IsReadOnly": "false",
+      "GroupID": "NICConfig"
+    }
+  ],
+  "DCIM_NICString": [
+    {
+      "InstanceID": "NIC.Integrated.1-1-1:ChipMdl",
+      "PendingValue": "",
+      "CurrentValue": "BCM57810 B0",
+      "MinLength": "0",
+      "FQDD": "NIC.Integrated.1-1-1",
+      "GroupDisplayName": "Main Configuration Page",
+      "Dependency": "",
+      "MaxLength": "0",
+      "GroupID": "VndrConfigPage",
+      "AttributeDisplayName": "Chip Type",
+      "ValueExpression": "",
+      "AttributeName": "ChipMdl",
+      "IsReadOnly": "true"
+    }
+  ]
+}
+-----------------
+
+
+SOFTWARE
+~~~~~~~
+    
+-----------------
+{
+  "DCIM_SoftwareIdentity": [
+    {
+      "MajorVersion": "2",
+      "Status": "Available",
+      "Classifications": "10",
+      "ComponentType": "FRMW",
+      "VersionString": "2.30.30.30",
+      "InstanceID": "DCIM:PREVIOUS#iDRAC.Embedded.1-1#IDRACinfo",
+      "DeviceID": "",
+      "VendorID": "",
+      "IsEntity": "true",
+      "MinorVersion": "30",
+      "RevisionString": "",
+      "FQDD": "iDRAC.Embedded.1-1",
+      "IdentityInfoValue": "DCIM:firmware:25227",
+      "InstallationDate": "NA",
+      "RevisionNumber": "30",
+      "SubVendorID": "",
+      "SubDeviceID": "",
+      "BuildNumber": "30",
+      "ElementName": "Integrated Dell Remote Access Controller",
+      "Updateable": "true",
+      "IdentityInfoType": "OrgID:ComponentType:ComponentID",
+      "impactsTPMmeasurements": "false",
+      "ComponentID": "25227"
+    }
+  ],
+  "CIM_InstalledSoftwareIdentity": {}
+}
+-----------------
+
+SUMMARY
+~~~~~~~
+    
+-----------------
+{
+  "DeviceDescription": "System",
+  "EstimatedExhaustTemperature": "255",
+  "InstanceID": "System.Embedded.1",
+  "PSRollupStatus": "1",
+  "BoardPartNumber": "0JXJPTA00",
+  "MemoryOperationMode": "OptimizerMode",
+  "SysMemLocation": "3",
+  "SystemID": "1563",
+  "ChassisSystemHeight": "2",
+  "TempRollupStatus": "1",
+  "BIOSVersionString": "2.4.2",
+  "LastUpdateTime": "Tue Sep 12 17:45:18 CDT 2017",
+  "PlatformGUID": "3234444f-c0b5-3380-4e10-00564c4c4544",
+  "SysMemTotalSize": "98304",
+  "Manufacturer": "Dell Inc.",
+  "BIOSReleaseDate": "01/09/2017",
+  "UUID": "4c4c4544-0056-4e10-8033-b5c04f443432",
+  "HostName": "",
+  "EstimatedSystemAirflow": "255",
+  "LifecycleControllerVersion": "2.41.40.40",
+  "PopulatedPCIeSlots": "2",
+  "PopulatedCPUSockets": "2",
+  "IntrusionRollupStatus": "",
+  "StorageRollupStatus": "1",
+  "BoardSerialNumber": "CN7016352P00A6",
+  "FQDD": "System.Embedded.1",
+  "LicensingRollupStatus": "1",
+  "PowerCap": "423",
+  "PrimaryStatus": "1",
+  "AssetTag": "",
+  "SysMemPrimaryStatus": "1",
+  "PopulatedDIMMSlots": "6",
+  "CurrentRollupStatus": "1",
+  "BaseBoardChassisSlot": "Slot 01",
+  "MemoryRollupStatus": "1",
+  "ChassisServiceTag": "5VN2D42",
+  "BatteryRollupStatus": "1",
+  "ExpressServiceCode": "12797151266",
+  "ServiceTag": "5VN3D42",
+  "SystemGeneration": "13G Modular",
+  "TempStatisticsRollupStatus": "1",
+  "RollupStatus": "1",
+  "IDSDMRollupStatus": "",
+  "SysMemFailOverState": "NotInUse",
+  "CMCIP": "100.68.123.36",
+  "NodeID": "5VN3D42",
+  "SysMemMaxCapacitySize": "3145728",
+  "MaxPCIeSlots": "3",
+  "MaxDIMMSlots": "24",
+  "PowerState": "2",
+  "SDCardRollupStatus": "",
+  "ServerAllocation": "446",
+  "ChassisName": "CMC-5VN2D42",
+  "FanRollupStatus": "1",
+  "CPURollupStatus": "1",
+  "smbiosGUID": "44454c4c-5600-104e-8033-b5c04f443432",
+  "PowerCapEnabledState": "3",
+  "CPLDVersion": "1.0.5",
+  "LastSystemInventoryTime": "Fri Sep 15 12:54:17 CDT 2017",
+  "Model": "PowerEdge FC630",
+  "BladeGeometry": "5",
+  "SystemRevision": "0",
+  "SysMemErrorMethodology": "6",
+  "MaxCPUSockets": "2",
+  "ChassisModel": "PowerEdge FX2s",
+  "VoltRollupStatus": "1"
+}
+-----------------
+
+LC LOGS
+~~~~~~~
+    
+-----------------
+[
+  {
+    "RawEventData": "",
+    "Comment": "[set comment here]",
+    "Category": "Audit",
+    "Message": "Successfully logged in using root, from 10.132.250.42 and WS-MAN.",
+    "InstanceID": "DCIM:LifeCycleLog:5938",
+    "CreationTimeStamp": "20170927234400.000000-300",
+    "PerceivedSeverity": "2",
+    "ConfigResultsAvailable": "false",
+    "FQDD": "iDRAC.Embedded.1",
+    "LogInstanceID": "DCIM:LifeCycleLog",
+    "ElementName": "USR0030",
+    "MessageArguments": [
+      "root",
+      "10.132.250.42",
+      "WS-MAN"
+    ],
+    "OwningEntity": "DCIM",
+    "SequenceNumber": "5938",
+    "AgentID": "RACLOG",
+    "RecordID": "5938",
+    "LogName": "LifeCycle Log",
+    "MessageID": "USR0030"
+  },
+  {
+    "RawEventData": "",
+    "Comment": "[set comment here]",
+    "Category": "Audit",
+    "Message": "The session for root from 100.64.23.32 using GUI is logged off.",
+    "InstanceID": "DCIM:LifeCycleLog:5937",
+    "CreationTimeStamp": "20170927160525.000000-300",
+    "PerceivedSeverity": "2",
+    "ConfigResultsAvailable": "false",
+    "FQDD": "iDRAC.Embedded.1",
+    "LogInstanceID": "DCIM:LifeCycleLog",
+    "ElementName": "USR0032",
+    "MessageArguments": [
+      "root",
+      "100.64.23.32",
+      "GUI"
+    ],
+    "OwningEntity": "DCIM",
+    "SequenceNumber": "5937",
+    "AgentID": "RACLOG",
+    "RecordID": "5937",
+    "LogName": "LifeCycle Log",
+    "MessageID": "USR0032"
+  }
+]
+-----------------
+
+SEL LOGS
+~~~~~~~
+    
+-----------------
+[
+  {
+    "LogInstanceID": "DCIM:SEL:1",
+    "RecordData": "The power input for power supply 2 is lost.",
+    "InstanceID": "DCIM:SEL:Entry:21",
+    "ElementName": "System Event Log Entry",
+    "RecordFormat": "string Description",
+    "CreationTimeStamp": "20160201155737.000000-360",
+    "PerceivedSeverity": "6",
+    "RecordID": "21",
+    "LogName": "System Event Log"
+  },
+  {
+    "LogInstanceID": "DCIM:SEL:1",
+    "RecordData": "Power supply 2 failed.",
+    "InstanceID": "DCIM:SEL:Entry:20",
+    "ElementName": "System Event Log Entry",
+    "RecordFormat": "string Description",
+    "CreationTimeStamp": "20160201155737.000000-360",
+    "PerceivedSeverity": "6",
+    "RecordID": "20",
+    "LogName": "System Event Log"
+  }
+]
+-----------------
