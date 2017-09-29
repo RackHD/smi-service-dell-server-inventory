@@ -51,7 +51,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/hardware", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/hardware", nickname = "hardware", notes = "This operation allow user to get complete server hardware inventory throu wsman.", response = Object.class)
+    @ApiOperation(value = "/hardware", nickname = "hardware", notes = "This operation allow user to get complete server hardware inventory using wsman protocol.", response = Object.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = HardwareResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object inventory(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
@@ -73,7 +73,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/summary", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/summary", nickname = "summary", notes = "This operation allow user to get server system information (System View) throu wsman.", response = Object.class)
+    @ApiOperation(value = "/summary", nickname = "summary", notes = "This operation allow user to get server system information (System View) using wsman protocol.", response = Object.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = SummaryResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object summary(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
@@ -96,7 +96,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/software", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/software", nickname = "software", notes = "This operation allow user to get complete server software inventory throu wsman.", response = Object.class, responseContainer = "List")
+    @ApiOperation(value = "/software", nickname = "software", notes = "This operation allow user to get complete server software inventory using wsman protocol.", response = Object.class, responseContainer = "List")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = SoftwareResponse.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object software(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
@@ -118,7 +118,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/nics", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/nics", nickname = "nics", notes = "This operation allow user to get complete server nics information throu wsman.", response = Object.class, responseContainer = "List")
+    @ApiOperation(value = "/nics", nickname = "nics", notes = "This operation allow user to get complete server nics information using wsman protocol.", response = Object.class, responseContainer = "List")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = NicsResponse.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object nics(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
@@ -141,7 +141,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/bios", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/bios", nickname = "bios", notes = "This operation allow user to collects the bios details from server throu wsman.", response = Object.class)
+    @ApiOperation(value = "/bios", nickname = "bios", notes = "This operation allow user to collects the bios details from server using wsman protocol.", response = Object.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = BiosResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object collectConfig(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
@@ -163,7 +163,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/boot", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/boot", nickname = "boot", notes = "This operation allow user to collect boot order details from the server throu wsman.", response = Object.class)
+    @ApiOperation(value = "/boot", nickname = "boot", notes = "This operation allow user to collect boot order details from the server using wsman protocol.", response = Object.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = BootResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object collectBootOrderDetails(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
@@ -206,7 +206,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/callback", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/callback", nickname = "callback", notes = "This operation allow user to collect all the server inventory throu wsman. It uses callback uri to respond once the inventory is collected. Type could be : hardware :nics :software : manager:boot :bios: summary: sellog: lclog", response = ResponseString.class)
+    @ApiOperation(value = "/callback", nickname = "callback", notes = "This operation allow user to collect all the server inventory using wsman protocol. It uses callback uri to respond once the inventory is collected. Type could be : hardware :nics :software : manager:boot :bios: summary: sellog: lclog", response = ResponseString.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseString.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public ResponseString inventoryCallback(@RequestBody InventoryCallbackRequest inventoryCallbackRequest) {
         ValidationUtilities.validateRequestPayload(inventoryCallbackRequest);
@@ -222,7 +222,7 @@ public class ServerInventoryController2_0 {
 
 
     @RequestMapping(value = "/manager", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete DCIM_IDRACCardView, DCIM_iDRACCardString and DCIM_iDRACCardEnumeration throu wsman.", response = Object.class)
+    @ApiOperation(value = "/manager", nickname = "manager", notes = "This operation allow user to get complete DCIM_IDRACCardView, DCIM_iDRACCardString and DCIM_iDRACCardEnumeration using wsman protocol.", response = Object.class)
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ManagerResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Object getIdracDetails(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
