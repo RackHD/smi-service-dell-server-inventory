@@ -36,7 +36,7 @@ public class ServerLogController2_0 {
 
 
     @RequestMapping(value = "/get/{type}", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value = "/get/{type}", nickname = "getLogs", notes = "This operation allow user to retrieve SEL or LC logs from the server via the iDRAC using WSMan protocol. Type - LC or SEL.", response = Object.class, responseContainer = "List")
+    @ApiOperation(value = "/get/{type}", nickname = "getLogs", notes = "This operation allow user to retrieve the SEL or LC logs from the server via the iDRAC using WSMan protocol. Type - LC or SEL.", response = Object.class, responseContainer = "List")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = SelLogResponse.class, responseContainer = "List"), @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"), @ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
     public Object collectSelLogs(@RequestBody Credential payload, @PathVariable("type") String type) {
         ValidationUtilities.validateRequestPayload(payload);
