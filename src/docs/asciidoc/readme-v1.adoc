@@ -1,0 +1,52 @@
+Purpose
+~~~~~~~
+
+Connects via the IDRAC on a Dell server and collects a comprehensive inventory.
+
+The dell-server-inventory container is a stateless spring-boot microservice that exposes a REST API for the purpose of returning a comprehensive JSON formatted inventory of a Dell 11th generation and newer server.
+
+The service can be called without a callback URL in order to run synchronously. If a callback URL is provided in the payload, the service will return immediately and post to the callback URL when the results
+are available.
+
+How to Use
+~~~~~~~~~~
+
+A docker container for this service is available at:
+https://hub.docker.com/r/rackhd/dell-server-inventory/
+....
+docker run --name service-server-inventory -p 0.0.0.0:46011:46011 -d rackhd/dell-server-inventory:latest
+....
+
+The service can also start up to bootstrap its configuration from consul. More information about registration with and using advanced configuration settings provided by a Consul K/V store can be found in
+the online help.
+
+Example Post (Without Callback)
++++++++++++++++++++++++++++++++
+
+Syncronous API's
+http://deployedIp:46011/api/1.0/server/inventory/hardware
+....
+{
+  "address": "<<Target IDRAC IP>>",
+  "password": "calvin",
+  "userName": "root"
+}
+....
+
+Example Post (With Callback)
+++++++++++++++++++++++++++++
+
+Asyncronous API's
+http://deployedIp:46011/api/1.0/server/inventory/callback
+....
+http://deployedIp:46011/api/1.0/server/inventory/callback
+{
+  "credential": {
+    "address": "<<Target IDRAC IP>>",
+    "password": "calvin",
+    "userName": "root"
+  },
+  "callbackUri": "http://callbackIp:port/your/callback/path",
+  "type": "hardware"
+}
+....
