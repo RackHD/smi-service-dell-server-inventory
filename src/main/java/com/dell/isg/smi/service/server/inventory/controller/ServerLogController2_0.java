@@ -44,13 +44,13 @@ public class ServerLogController2_0 {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = logManagerImpl.getServerLogs(wsmanCredentials, type);
         } catch (Exception e) {
-            logger.error("Exception occured : ", e);
+            logger.error("Exception occured : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Result Response : ", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Result Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
         return result;
     }
 
