@@ -63,7 +63,7 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ServerHardwareInventory.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public ServerHardwareInventory inventory(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Payload for hardware inventory : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Payload for hardware inventory : {} {}", payload.getAddress(), payload.getUserName());
         ServerHardwareInventory serverHardwareInventory = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
@@ -72,13 +72,13 @@ public class ServerInventoryController {
             TranformerUtil.transformHardwareInventory(result, serverHardwareInventory);
             serverHardwareInventory.getSystem().setId(payload.getAddress());
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Hardware inventory Response : ", ReflectionToStringBuilder.toString(serverHardwareInventory, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Hardware inventory Response : {}", ReflectionToStringBuilder.toString(serverHardwareInventory, new CustomRecursiveToStringStyle(99)));
         return serverHardwareInventory;
     }
 
@@ -88,7 +88,7 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = HwSystem.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public HwSystem summary(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Credential for system inventory : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Credential for summary inventory : {} {}", payload.getAddress(), payload.getUserName());
         HwSystem summary = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
@@ -96,13 +96,13 @@ public class ServerInventoryController {
             summary = TranformerUtil.transformHwSystem(result);
             summary.setId(payload.getAddress());
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("System inventory Response : ", ReflectionToStringBuilder.toString(summary, new CustomRecursiveToStringStyle(99)));
+        logger.trace("System summary inventory Response : {}", ReflectionToStringBuilder.toString(summary, new CustomRecursiveToStringStyle(99)));
         return summary;
     }
 
@@ -112,19 +112,19 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = DCIMSoftwareIdentityType.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public List<DCIMSoftwareIdentityType> software(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Credential for software inventory : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Credential for software inventory : {} {}", payload.getAddress(), payload.getUserName());
         List<DCIMSoftwareIdentityType> result = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = inventoryManagerImpl.enumerateDcimSoftwareIdentity(wsmanCredentials);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Software inventory Response : ", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Software inventory Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
         return result;
     }
 
@@ -134,20 +134,20 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = HwNic.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public List<HwNic> nics(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Credential for NIC inventory : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Credential for NIC inventory : {} {}", payload.getAddress(), payload.getUserName());
         List<HwNic> result = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             List<DCIMNICViewType> nics = inventoryManagerImpl.collectNics(wsmanCredentials);
             result = TranformerUtil.transformHwNic(nics);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("NIC inventory Response : ", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
+        logger.trace("NIC inventory Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
         return result;
     }
 
@@ -157,19 +157,19 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = DCIMBIOSConfig.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public DCIMBIOSConfig collectConfig(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Credential for bios data : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Credential for bios data : {} {}", payload.getAddress(), payload.getUserName());
         DCIMBIOSConfig result = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = inventoryManagerImpl.collectBiosConfig(wsmanCredentials);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Bios Response : ", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Bios Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
         return result;
     }
 
@@ -179,19 +179,19 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = BootOrderDetails.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public BootOrderDetails collectBootOrderDetails(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Credential for boot order details : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Credential for boot order details : {} {}", payload.getAddress(), payload.getUserName());
         BootOrderDetails result = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
             result = inventoryManagerImpl.getBootOrderDetails(wsmanCredentials);
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Boot Order Response : ", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Boot Order Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
         return result;
     }
 
@@ -202,13 +202,13 @@ public class ServerInventoryController {
         try {
             response = inventoryManagerImpl.inventory(Arrays.stream(deviceIps.getIps()).collect(Collectors.toSet()));
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Inventory Response : ", ReflectionToStringBuilder.toString(response, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Inventory Response : {}", ReflectionToStringBuilder.toString(response, new CustomRecursiveToStringStyle(99)));
         return response;
     }
 
@@ -218,7 +218,7 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ResponseString.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public ResponseString inventoryCallback(@RequestBody InventoryCallbackRequest inventoryCallbackRequest) {
         ValidationUtilities.validateRequestPayload(inventoryCallbackRequest);
-        logger.trace("Inventory submitted for callback : {} : {}", inventoryCallbackRequest.getCredential().getAddress(), inventoryCallbackRequest.getCallbackUri());
+        logger.trace("Inventory submitted for callback : {} {}", inventoryCallbackRequest.getCredential().getAddress(), inventoryCallbackRequest.getCallbackUri());
         ResponseString response = new ResponseString();
         String result = "Failed to submit IP range for discovery..";
         response.setCallbackUri(inventoryCallbackRequest.getCallbackUri());
@@ -243,7 +243,7 @@ public class ServerInventoryController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ManagerResponse.class), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
     public Manager getIdracDetails(@RequestBody Credential payload) {
         ValidationUtilities.validateRequestPayload(payload);
-        logger.trace("Credential for hardware inventory : ", payload.getAddress(), payload.getUserName());
+        logger.trace("Credential for manager inventory : {} {}", payload.getAddress(), payload.getUserName());
         Manager manager = null;
         try {
             WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
@@ -251,13 +251,13 @@ public class ServerInventoryController {
             manager = new Manager();
             manager.setStringViewList(TranformerUtil.transformIdracString(result));
         } catch (Exception e) {
-            logger.error("Exception occured in inventory : ", e.getMessage());
+            logger.error("Exception occured in inventory : {}", e.getMessage());
             BadRequestException badRequestException = new BadRequestException();
             badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
             badRequestException.addAttribute(e.getMessage());
             throw badRequestException;
         }
-        logger.trace("Manager Response : ", ReflectionToStringBuilder.toString(manager, new CustomRecursiveToStringStyle(99)));
+        logger.trace("Manager Response : {}", ReflectionToStringBuilder.toString(manager, new CustomRecursiveToStringStyle(99)));
         return manager;
     }
 
