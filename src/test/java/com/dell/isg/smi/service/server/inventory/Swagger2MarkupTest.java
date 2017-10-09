@@ -50,7 +50,7 @@ public class Swagger2MarkupTest {
     @Test
     public void convertSwaggerToAsciiDocV1() throws Exception {
     	String outputDir = System.getProperty("staticdocs.outputDir")+File.separatorChar+"V1.0";
-    	//String outputDir = "build/asciidoc/generated";
+    	//String outputDir = "build/asciidoc/generated"+File.separatorChar+"V1.0";
         Swagger2MarkupResultHandler.Builder builder = Swagger2MarkupResultHandler
             .outputDirectory(outputDir);
         mockMvc.perform(get(API_URI_V1).accept(MediaType.APPLICATION_JSON))
@@ -62,7 +62,7 @@ public class Swagger2MarkupTest {
     @Test
     public void convertSwaggerToAsciiDocV2() throws Exception {
     	String outputDir = System.getProperty("staticdocs.outputDir")+File.separatorChar+"V2.0";
-    	//String outputDir = "build/asciidoc/generated";
+    	//String outputDir = "build/asciidoc/generated"+File.separatorChar+"V2.0";
         Swagger2MarkupResultHandler.Builder builder = Swagger2MarkupResultHandler
             .outputDirectory(outputDir);
         mockMvc.perform(get(API_URI_V2).accept(MediaType.APPLICATION_JSON))
