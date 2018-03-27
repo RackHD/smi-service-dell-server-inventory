@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 DELL Inc. or its subsidiaries.  All Rights Reserved.
+ * Copyright Â© 2017 DELL Inc. or its subsidiaries.  All Rights Reserved.
  */
 package com.dell.isg.smi.service.server.inventory.manager;
 
@@ -210,6 +210,11 @@ public class InventoryManagerImpl2_0 implements IInventoryManager2_0 {
     @Override
     public Object collect(WsmanCredentials wsmanCredentials, String dcim) throws Exception {
         return inventoryAdapterImpl.collect(wsmanCredentials, dcim);
+    }
+
+    @Override
+    public Object collectSwitchConnectionsView(WsmanCredentials wsmanCredentials) throws Exception {
+        return inventoryAdapterImpl.collectSwitchConnectionsView(wsmanCredentials);
     }
 
 }

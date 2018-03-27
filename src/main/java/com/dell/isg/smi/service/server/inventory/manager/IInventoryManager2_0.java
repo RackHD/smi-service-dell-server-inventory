@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 DELL Inc. or its subsidiaries.  All Rights Reserved.
+ * Copyright Â© 2017 DELL Inc. or its subsidiaries.  All Rights Reserved.
  */
 package com.dell.isg.smi.service.server.inventory.manager;
 
@@ -36,4 +36,5 @@ public interface IInventoryManager2_0 {
 
     Object collect(WsmanCredentials wsmanCredentials, String dcim) throws Exception;
 
+	Object collectSwitchConnectionsView(WsmanCredentials wsmanCredentials) throws Exception;
 }
