@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 DELL Inc. or its subsidiaries.  All Rights Reserved.
+ * Copyright Â© 2017 DELL Inc. or its subsidiaries.  All Rights Reserved.
  */
 package com.dell.isg.smi.service.server.inventory.controller;
 
@@ -31,6 +31,7 @@ import com.dell.isg.smi.service.server.inventory.mock.boot.BootResponse;
 import com.dell.isg.smi.service.server.inventory.mock.hardware.HardwareResponse;
 import com.dell.isg.smi.service.server.inventory.mock.manager.ManagerResponse;
 import com.dell.isg.smi.service.server.inventory.mock.nics.NicsResponse;
+import  com.dell.isg.smi.service.server.inventory.mock.switchconnection.SwitchConnectionResponse;
 import com.dell.isg.smi.service.server.inventory.mock.software.SoftwareResponse;
 import com.dell.isg.smi.service.server.inventory.mock.summary.SummaryResponse;
 import com.dell.isg.smi.service.server.inventory.utilities.ValidationUtilities;
@@ -254,6 +255,28 @@ public class ServerInventoryController2_0 {
             throw badRequestException;
         }
         logger.trace("Result Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
+        return result;
+    }
+
+    @RequestMapping(value = "/switchconnectionsview", method = RequestMethod.POST, headers = "Accept=application/json", consumes = "application/json", produces = "application/json")
+    @ApiOperation(value = "/switchconnectionsview", nickname = "switchconnectionsview", notes = "This operation allows a user to retrieve the complete server switch connections view using the WSMan protocol.", response = Object.class, responseContainer = "List")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = SwitchConnectionResponse.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Failure") })
+    public Object switchConnectionsView(@RequestBody Credential payload) {
+        ValidationUtilities.validateRequestPayload(payload);
+        logger.trace("Credential for switchConnectionsView : {} {}", payload.getAddress(), payload.getUserName());
+        Object result = null;
+        try {
+            WsmanCredentials wsmanCredentials = new WsmanCredentials(payload.getAddress(), payload.getUserName(), payload.getPassword());
+            Object switchview = inventoryManagerImpl.collectSwitchConnectionsView(wsmanCredentials);
+            result = switchview;
+        } catch (Exception e) {
+            logger.error("Exception occured in inventory2 : {}", e.getMessage());
+            BadRequestException badRequestException = new BadRequestException();
+            badRequestException.setErrorCode(com.dell.isg.smi.commons.elm.model.EnumErrorCode.ENUM_GENERIC_MESSAGE);
+            badRequestException.addAttribute(e.getMessage());
+            throw badRequestException;
+        }
+        logger.trace("Switchview Response : {}", ReflectionToStringBuilder.toString(result, new CustomRecursiveToStringStyle(99)));
         return result;
     }
 
