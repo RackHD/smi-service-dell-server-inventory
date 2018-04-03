@@ -152,6 +152,8 @@ public class InventoryManagerImpl2_0 implements IInventoryManager2_0 {
             return inventoryAdapterImpl.collectLcLogs(credential);
         case MANAGER:
             return inventoryAdapterImpl.collectIdracDetails(credential);
+        case SWITCHCONNECTION:
+            return inventoryAdapterImpl.collectSwitchConnectionsView(credential);
         }
         return null;
     }
