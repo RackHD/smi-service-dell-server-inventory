@@ -103,17 +103,17 @@ jar {
 }
 
 repositories {
-        mavenLocal()
+	mavenLocal()
 	maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 	maven { url "https://oss.sonatype.org/content/repositories/releases" }
 	maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
-    compile 'com.dell.isg.smi:adapter-server:1.0.81'
-    compile 'com.dell.isg.smi:commons-elm:1.0.82'
-    compile 'com.dell.isg.smi:commons-utilities:1.0.32'
-    compile 'com.dell.isg.smi:commons-model:1.0.97'
+    compile 'com.dell.isg.smi:adapter-server:'+versionAdapterServer
+    compile 'com.dell.isg.smi:commons-elm:'+versionCommonsElm
+    compile 'com.dell.isg.smi:commons-utilities:'+versionCommonsUtilities
+    compile 'com.dell.isg.smi:commons-model:'+versionCommonsModel
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-tomcat'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
